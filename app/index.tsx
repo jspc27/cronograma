@@ -29,24 +29,36 @@ export default function HomeScreen() {
         <TouchableOpacity style={styles.box} onPress={() => navigation.navigate("Calendario")}>
           <Image source={require("../assets/images/libreta2.png")} style={styles.libreta} />
         </TouchableOpacity>
+
+        <View style={styles.box2} >
+  <Text style={styles.boxText} onPress={() => navigation.navigate("Estadisticas")}>Aquí encontrarás tus Estadísticas</Text>
+  <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Estadisticas")}>
+    <View style={styles.iconContainer}>
+      <Icon name="chart-bar" size={40} color="#1D3557" />
+    </View>
+  </TouchableOpacity>
+</View>
+
+<View style={styles.box2}>
+  <Text style={styles.boxText} onPress={() => navigation.navigate("Sugerencias")}>
+    Si no tienes idea sobre cómo llenar tu cronograma de actividades, aquí te dejamos unas Sugerencias
+  </Text>
+  <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Sugerencias")}>
+    <View style={styles.iconContainer}>
+      <Icon name="lightbulb-on-outline" size={40} color="#1D3557" />
+    </View>
+  </TouchableOpacity>
+</View>
+       
       </View>
 
-      {/* Footer con iconos en cuadros redondeados */}
+      {/* Footer con iconos en cuadros redondeados
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Estadisticas")}>
-          <View style={styles.iconContainer}>
-            <Icon name="chart-bar" size={40} color="#1D3557" />
-          </View>
-          <Text style={styles.footerButtonText}>Estadísticas</Text>
-        </TouchableOpacity>
+        
 
-        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Sugerencias")}>
-          <View style={styles.iconContainer}>
-            <Icon name="lightbulb-on-outline" size={40} color="#1D3557" />
-          </View>
-          <Text style={styles.footerButtonText}>Sugerencias</Text>
-        </TouchableOpacity>
-      </View>
+       
+      </View> */}
+      
     </SafeAreaView>
   );
 }

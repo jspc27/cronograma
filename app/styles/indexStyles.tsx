@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   },
   box: {
     width: "85%",
-    aspectRatio: 1.3,
+    aspectRatio: 1.9,
     backgroundColor: "#aed6f1",
     padding: 20,
     borderRadius: 15,
@@ -53,29 +53,34 @@ export const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 30,
   },
-  boxText: {
-    fontSize: 18,
-    color: "#1D3557",
-    textAlign: "center",
-  },
 
-  // Footer
-  footer: {
-    width: "100%",
-    position: "absolute",
-    bottom: 0,
+  box2: {
+    width: "85%",
+    backgroundColor: "#aed6f1",
+    borderRadius: 15,
+    elevation: 5,
+    marginBottom: 30,
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    paddingVertical: 5,
-    backgroundColor: "#F5A9B8",
+    justifyContent: "space-between", // Distribuir los elementos
+    alignItems: "center", // Centrar verticalmente
+    paddingHorizontal: 20,
+    paddingVertical: 15,
   },
   footerButton: {
     alignItems: "center",
+    justifyContent: "center",
   },
+  boxText: {
+    fontSize: 16,
+    color: "#1D3557",
+    flex: 1, // Permitir que el texto ocupe el espacio disponible
+    textAlign: "left", // Alineación a la izquierda
+    marginRight: -24, // Separación del botón
+  },  
+
   footerButtonText: {
     color: "#1D3557",
-    fontSize: 14,
+    fontSize: 15,
     marginTop: 5,
   },
   iconContainer: {
@@ -88,9 +93,9 @@ export const styles = StyleSheet.create({
     elevation: 5,
   },
   libreta: {
-    width: "100%",
+    width: "80%",
     height: undefined,
-    aspectRatio: 1.5,
+    aspectRatio: 1.7,
     marginBottom: 10,
   },
 });
