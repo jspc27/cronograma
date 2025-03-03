@@ -89,7 +89,7 @@ export default function HomeScreen() {
       <TouchableOpacity
         key={indexDia}
         style={[styles.dia, { opacity: dia ? 1 : 0 }]}
-        disabled={!dia} // Evita que los espacios vacíos sean clickeables
+        disabled={!dia} 
         onPress={() => {
           if (dia) {
             navigation.navigate("Listado", { fecha: `${dia}/${fecha.getMonth() + 1}/${fecha.getFullYear()}` });
