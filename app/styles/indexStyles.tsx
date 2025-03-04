@@ -94,7 +94,7 @@ footerIconContainerHome: {
   box2: {
     width: "100%",
     height: "12%",
-    backgroundColor: "#fff",
+    backgroundColor:"#1D3557",
     borderRadius: 15,
     elevation: 5,
     marginBottom: 30,
@@ -108,7 +108,7 @@ footerIconContainerHome: {
 
   boxText: {
     fontSize: 16,
-    color: "#1D3557",
+    color: "#fff",
     flex: 1, 
     textAlign: "left",
   },  
@@ -192,17 +192,15 @@ container2: {
     color: "#1D3557",
   },
   dia: {
-    width: 35,
-    height: 35,
-    margin: 5,
+    width: "13%",
+    height: 60,
+    margin: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
-    borderRadius: 22,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
     elevation: 3,
+    borderRadius: 20,
   },
   textoDia: {
     fontSize: 16,

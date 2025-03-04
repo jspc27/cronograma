@@ -1,32 +1,44 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-    color: "#1D3557",
-    fontWeight: "bold",
-    marginBottom: 10,
+  container: {
+    flex: 1,
+    padding: 20,
   },
-  boxs: {
-    width: "95%",
-    backgroundColor: "#EFEFEF",
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  box: {
     borderRadius: 15,
-    elevation: 5,
-    marginBottom: 30,
+    padding: 15,
+    marginBottom: 15,
+    justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+  },
+  smallBox: {
+    width: "45%",
+    height: 80,
+  },
+  mediumBox: {
+    width: "45%",
+    height: 120,
+  },
+  largeBox: {
+    width: "100%",
+    height: 150,
+  },
+  text: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   boxTextS: {
     fontSize: 16,
     color: "#1D3557",
     flex: 1,
     textAlign: "left",
-  },
-  img: {
-    width: "35%",
-    aspectRatio: 1.0,
-    borderRadius: 30,
   },
 });
 

@@ -49,8 +49,6 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      
-      
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
           <View style={styles.box2}>
