@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F6FBFF",
   },
   header: {
     flexDirection: "row",
@@ -12,7 +12,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 15,
     paddingBottom: 15,
-    backgroundColor: "#FDE2E8",
+    backgroundColor: "#fff",
+    height: 70,
+    elevation: 5,
   },
   title: {
     fontSize: 32,
@@ -33,6 +35,52 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
+  //footer
+  footer: {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -3 }, // Sombra arriba
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 10, // Sombra en Android
+  },
+  
+
+footerButton: {
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+footerIconContainer: {
+  width: 50,
+  height: 50,
+  borderRadius: 25,
+  backgroundColor: "#1D3557",
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+footerButtonHome: {
+  marginTop: -20, 
+},
+
+footerIconContainerHome: {
+  width: 65,
+  height: 65,
+  borderRadius: 32.5,
+  backgroundColor: "#1D3557",
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+
   // Ajuste de contenido
   content: {
     flex: 1,
@@ -44,8 +92,9 @@ export const styles = StyleSheet.create({
   },
 
   box2: {
-    width: "95%",
-    backgroundColor: "#EFEFEF",
+    width: "100%",
+    height: "12%",
+    backgroundColor: "#fff",
     borderRadius: 15,
     elevation: 5,
     marginBottom: 30,
@@ -55,48 +104,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
-  box3: {
-    width: "95%",
-    backgroundColor: "#EFEFEF",
-    borderRadius: 15,
-    elevation: 5,
-    marginBottom: 30,
-    flexDirection: "row",
-    justifyContent: "space-between", 
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    marginTop: 20,
-  },
-  footerButton: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  
+
   boxText: {
     fontSize: 16,
     color: "#1D3557",
     flex: 1, 
     textAlign: "left",
-    marginRight: -24,
   },  
 
-  footerButtonText: {
-    color: "#1D3557",
-    fontSize: 15,
-    marginTop: 5,
-  },
-  iconContainer: {
-    width: 45,
-    height: 45,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-  },
+ 
+  
 
   libreta: {
-    width: "35%",
+    width: "20%",
     height: undefined,
     aspectRatio: 1.0,
     marginBottom: 10,
@@ -127,11 +148,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  container2: {
-    flex: 1,
-    backgroundColor: "#FCE9ED",
-    borderRadius: 20,
-  },
+  calendarWrapper: {
+  width: "100%",
+  alignItems: "center",
+  marginBottom: 20,
+},
+container2: {
+  width: "100%",
+  backgroundColor: "#fff",
+  borderRadius: 20,
+  elevation: 5,
+  paddingVertical: 10,
+  alignItems: "center",
+},
+
   titulo: {
     fontSize: 20,
     fontWeight: "bold",
@@ -148,7 +178,7 @@ export const styles = StyleSheet.create({
   diasSemana: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "90%",
+    width: "100%",
     marginBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",

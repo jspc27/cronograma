@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView, Image } from "react-native";
+import { View, Text, SafeAreaView, Image, TouchableOpacity } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
 import globalStyles from "../app/styles/indexStyles";
@@ -20,6 +20,7 @@ export default function Listado() {
       <Text>Fecha seleccionada: {route.params?.fecha || "No se recibió fecha"}</Text>
     </View>
 
+    
 
 
     </SafeAreaView>
