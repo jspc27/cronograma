@@ -46,10 +46,10 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: -3 }, // Sombra arriba
+    shadowOffset: { width: 0, height: -3 }, 
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 10, // Sombra en Android
+    elevation: 10, 
   },
   
 

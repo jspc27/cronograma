@@ -108,7 +108,7 @@ export default function HomeScreen() {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.footerButtonHome} onPress={() => navigation.navigate("Home")}> 
+        <TouchableOpacity style={styles.footerButtonHome} onPress={() => navigation.navigate("index")}> 
           <View style={styles.footerIconContainerHome}>
             <Icon name="home" size={40} color="#fff" />
           </View>
