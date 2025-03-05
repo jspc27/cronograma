@@ -61,7 +61,7 @@ export default function HomeScreen() {
           {/* Calendario */}
           <View style={styles.calendarWrapper}>
             <View style={styles.container2}>
-              <View style={styles.header1}>
+              <View style={styles.headerC}>
                 <TouchableOpacity onPress={() => cambiarMes(-1)}>
                   <Text style={styles.flecha}>{"<"}</Text>
                 </TouchableOpacity>

@@ -5,17 +5,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F6FBFF",
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 15,
-    backgroundColor: "#fff",
-    height: 70,
-    elevation: 5,
-  },
   title: {
     fontSize: 32,
     color: "#1D3557",
@@ -139,7 +128,7 @@ footerIconContainerHome: {
 
 
   // Calendario
-  header1: {
+  headerC: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

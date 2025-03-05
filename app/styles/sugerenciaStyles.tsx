@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: "#F6FBFF"
   },
   gridContainer: {
     flexDirection: "row",
@@ -47,9 +48,10 @@ const styles = StyleSheet.create({
   },
   Text: {
     color: "#1D3557",
-    fontSize: 15,
+    fontSize: 16,
     paddingHorizontal: 17,
-    paddingVertical: 15,
+    paddingVertical: 5,
+    fontWeight: "bold",
   },
   verticalContainer: {
     flexDirection: "column",
@@ -58,19 +60,20 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    height: "15%",
+    height: "11%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 5,
-    backgroundColor: "#F6FBFF",
+    backgroundColor: "#fff",
     padding: 20,
   },
   backButton: {
     padding: 10,
     backgroundColor: "#1D3557",
     borderRadius: 30,
-    marginRight: -10,
+    marginRight: -9,
+    marginLeft: -3,
   },
   backButtonText: {
     color: "#fff",
