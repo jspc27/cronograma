@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
   },
+  iconContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+    },
   
   box: {
     borderRadius: 15,
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 10,
     backgroundColor: "#1D3557",
-    borderRadius: 30,
+    borderRadius: 5,
     marginRight: -9,
     marginLeft: -3,
   },

@@ -6,6 +6,7 @@ import globalStyles from "../app/styles/indexStyles";
 import styles from "./styles/listadoStyles";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
 type ListadoRouteProp = RouteProp<StackParamList, "Listado">;
 
@@ -25,7 +26,22 @@ export default function Listado() {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
           <Icon name="arrow-back" size={20} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.Text}>{route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}</Text>
+
+        <Text style={styles.Text}>
+          {route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}
+        </Text>
+
+        <View style={styles.iconContainer}>
+          <TouchableOpacity>
+            <Icon name="search" size={24} color="#1D3557" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Icon name="filter-list" size={24} color="#1D3557" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Icon name="more-vert" size={24} color="#1D3557" />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
