@@ -20,16 +20,15 @@ const Stack = createStackNavigator<StackParamList>();
 
 export default function App() {
   return (
-    <MenuProvider>
-      <NavigationContainer>
+    <NavigationContainer>
+      <MenuProvider>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" component={index} />
           <Stack.Screen name="Estadisticas" component={Estadisticas} />
           <Stack.Screen name="Sugerencias" component={Sugerencias} />
-          <Stack.Screen name="Listado" component={Listado}/>
+          <Stack.Screen name="Listado" component={Listado} />
         </Stack.Navigator>
-     </NavigationContainer>
-    </MenuProvider>
-    
+      </MenuProvider>
+    </NavigationContainer>
   );
 }
