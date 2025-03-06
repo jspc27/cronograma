@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Alert } from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
 import globalStyles from "../app/styles/indexStyles";
@@ -16,7 +16,7 @@ export default function Listado() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [activity, setActivity] = useState("");
-  const [priority, setPriority] = useState("Normal");
+  // const [priority, setPriority] = useState("Normal");
 
   const getColorForActivity = (activity: string) => {
     const colors = ["#2A9D8F", "#E76F51", "#F4A261", "#E9C46A", "#264653"]; 
@@ -34,10 +34,10 @@ export default function Listado() {
   };
 
   const handleSave = () => {
-    Alert.alert("Actividad guardada", `Actividad: ${activity}\nPrioridad: ${priority}`);
+    Alert.alert("Actividad guardada", `Actividad: ${activity}`);
     setModalVisible(false);
     setActivity("");
-    setPriority("Normal");
+    // setPriority("Normal");
   };
 
   return (
@@ -64,8 +64,8 @@ export default function Listado() {
                 <Icon name="more-vert" size={24} color="#1D3557" />
               </MenuTrigger>
               <MenuOptions>
-                <MenuOption onSelect={() => Alert.alert('Option 1')} text='Editar' />
-                <MenuOption onSelect={() => Alert.alert('Option 2')} text='Eliminar' />
+                <MenuOption onSelect={() => Alert.alert('Option 1')} text='Option 1' />
+                <MenuOption onSelect={() => Alert.alert('Option 2')} text='Option 2' />
               </MenuOptions>
             </Menu>
           </View>
@@ -115,37 +115,40 @@ export default function Listado() {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.modalView}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Agregar Actividad</Text>
-            <Menu>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.modalContainer}
+        >
+          <View style={styles.modalView}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Agregar Actividad</Text>
+              
+              <Menu>
               <MenuTrigger>
-                <TouchableOpacity >
                 <Icon name="more-vert" size={24} color="#1D3557" />
-                </TouchableOpacity>
               </MenuTrigger>
               <MenuOptions>
-              <MenuOption onSelect={() => Alert.alert('Option 1')} text='Baja'  />
-              <MenuOption onSelect={() => Alert.alert('Option 2')} text='Media' />
-              <MenuOption onSelect={() => Alert.alert('Option 3')} text='Alta' />
+                <MenuOption onSelect={() => Alert.alert('Option 1')} text='Option 1' />
+                <MenuOption onSelect={() => Alert.alert('Option 2')} text='Option 2' />
               </MenuOptions>
             </Menu>
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="Escribe la actividad"
+              value={activity}
+              onChangeText={setActivity}
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.cancelButtonText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                <Text style={styles.saveButtonText}>Guardar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Escribe la actividad"
-            value={activity}
-            onChangeText={setActivity}
-          />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-              <Text style={styles.cancelButtonText}>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-              <Text style={styles.saveButtonText}>Guardar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </MenuProvider>
   );

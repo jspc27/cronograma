@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 10,
-    backgroundColor: "#4E598C",
+    backgroundColor: "#00A8CC",
     borderRadius: 5,
   },
   Text: {
@@ -66,11 +66,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#4E598C",
+    backgroundColor: "#00A8CC",
     padding: 15,
     borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalView: {
     margin: 20,
@@ -86,8 +91,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    marginTop: "40%",
-    height: "60%",
+    width: "90%",
   },
   modalHeader: {
     flexDirection: "row",
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#1D3557",
   },
   priorityButton: {
     backgroundColor: "#1D3557",
@@ -109,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   input: {
-    height: 250,
+    height: 150,
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 10,
@@ -125,7 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   saveButton: {
-    backgroundColor: "#1D3557",
+    backgroundColor: "#00A8CC",
     borderRadius: 20,
     padding: 10,
     flex: 1,
@@ -137,7 +142,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   cancelButton: {
-    backgroundColor: "#4E598C",
+    backgroundColor: "#1D3557",
     borderRadius: 20,
     padding: 10,
     flex: 1,
@@ -148,6 +153,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
+  timePickerButton: {
+    backgroundColor: "#E9C46A",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  
+  timePickerText: {
+    color: "#264653",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  
 });
 
 export default styles;
