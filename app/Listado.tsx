@@ -63,7 +63,7 @@ export default function Listado() {
     }
   };
 
-  const colors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFC300"];
+  const colors = ["#28A745", "#FF9800", "#007BFF", "#E91E63", "#FFC107"];
 
   const getColorForIndex = (index: number): string => {
     return colors[index % colors.length];

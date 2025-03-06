@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     color: "#1D3557",
     fontSize: 16,
   },
+
   separator: {
     height: 1,
     backgroundColor: "#D3D3D3",
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
   },
+  
   addButton: {
     position: "absolute",
     bottom: 20,
