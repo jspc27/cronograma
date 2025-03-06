@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, Alert, KeyboardAvoidingView, Platform } from "react-native";
+import React, { useState, useEffect } from "react";
+import { 
+  View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, 
+  Alert, KeyboardAvoidingView, Platform, FlatList 
+} from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
 import globalStyles from "../app/styles/indexStyles";
@@ -8,6 +11,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from "react-native-popup-menu";
 import { TimePickerModal } from "react-native-paper-dates";
+import { createTable, insertActivity, getActivities } from "../app/database/database"; // Importa las funciones de BD
 
 type ListadoRouteProp = RouteProp<StackParamList, "Listado">;
 
@@ -17,19 +21,15 @@ export default function Listado() {
 
   const [visible, setVisible] = useState(false);
   const [time, setTime] = useState({ hours: 0, minutes: 0 });
-
   const [modalVisible, setModalVisible] = useState(false);
   const [activity, setActivity] = useState("");
   const [hora, setHora] = useState("");
+  const [activities, setActivities] = useState<{ id: number; actividad: string; hora: string }[]>([]);
 
-  const getColorForActivity = (activity: string) => {
-    const colors = ["#28A745", "#FF9800", "#007BFF", "#E91E63", "#FFC107"]; 
-    let hash = 0;
-    for (let i = 0; i < activity.length; i++) {
-      hash = activity.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return colors[Math.abs(hash) % colors.length];
-  };
+  useEffect(() => {
+    createTable(); //Crear la tabla en SQLite
+    loadActivities(); //Cargar las actividades guardadas
+  }, []);
 
   const formatDate = (dateString: string) => {
     const [day, month, year] = dateString.split("/");
@@ -37,12 +37,36 @@ export default function Listado() {
     return date.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
   };
 
-  const handleSave = () => {
-    const formattedTime = `${time.hours}:${time.minutes < 10 ? '0' : ''}${time.minutes}`;
-    Alert.alert("Actividad guardada", `Actividad: ${activity}\nHora: ${formattedTime}`);
-    setModalVisible(false);
-    setActivity("");
-    setHora("");
+  const loadActivities = async () => {
+    try {
+      const data = await getActivities();
+      setActivities(data as { id: number; actividad: string; hora: string }[]);
+    } catch (error) {
+      console.error("❌ Error al cargar actividades", error);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!activity.trim() || !hora) {
+      Alert.alert("Error", "Por favor, ingresa una actividad y selecciona la hora.");
+      return;
+    }
+
+    try {
+      await insertActivity(activity, hora);
+      setModalVisible(false);
+      setActivity("");
+      setHora("");
+      loadActivities(); 
+    } catch (error) {
+      console.error("❌ Error al guardar actividad", error);
+    }
+  };
+
+  const colors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFC300"];
+
+  const getColorForIndex = (index: number): string => {
+    return colors[index % colors.length];
   };
 
   return (
@@ -69,43 +93,26 @@ export default function Listado() {
                 <Icon name="more-vert" size={24} color="#1D3557" />
               </MenuTrigger>
               <MenuOptions>
-                <MenuOption onSelect={() => Alert.alert('Option 1')} text='Option 1' />
-                <MenuOption onSelect={() => Alert.alert('Option 2')} text='Option 2' />
+                <MenuOption onSelect={() => Alert.alert("Opción 1")} text="Editar" />
+                <MenuOption onSelect={() => Alert.alert("Opción 2")} text="Eliminar" />
               </MenuOptions>
             </Menu>
           </View>
         </View>
 
-        <View style={styles.activityContainer}>
-          <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Pasear a sacar el perro") }]}>
-            <Text style={styles.timeText}>8:00 AM</Text>
-          </View>
-          <Text style={styles.activityText}>Pasear a sacar el perro</Text>
-        </View>
-        <View style={styles.separator} />
-
-        <View style={styles.activityContainer}>
-          <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Reunión de trabajo") }]}>
-            <Text style={styles.timeText}>10:00 AM</Text>
-          </View>
-          <Text style={styles.activityText}>Reunión de trabajo</Text>
-        </View>
-        <View style={styles.separator} />
-
-        <View style={styles.activityContainer}>
-          <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Almuerzo con amigos") }]}>
-            <Text style={styles.timeText}>1:00 PM</Text>
-          </View>
-          <Text style={styles.activityText}>Almuerzo con amigos</Text>
-        </View>
-        <View style={styles.separator} />
-
-        <View style={styles.activityContainer}>
-          <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Gimnasio") }]}>
-            <Text style={styles.timeText}>6:00 PM</Text>
-          </View>
-          <Text style={styles.activityText}>Gimnasio</Text>
-        </View>
+        <FlatList
+          data={activities}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => (
+            <View style={styles.activityContainer}>
+              <View style={[styles.timeBadge, { backgroundColor: getColorForIndex(index) }]}>
+                <Text style={styles.timeText}>{item.hora}</Text>
+              </View>
+              <Text style={styles.activityText}>{item.actividad}</Text>
+            </View>
+          )}
+          ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
+        />
       </SafeAreaView>
 
       <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
@@ -116,14 +123,9 @@ export default function Listado() {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
+        onRequestClose={() => setModalVisible(false)}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.modalContainer}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.modalContainer}>
           <View style={styles.modalView}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Agregar Actividad</Text>
@@ -135,16 +137,14 @@ export default function Listado() {
               onChangeText={setActivity}
             />
             <TouchableOpacity onPress={() => setVisible(true)} style={styles.hora}>
-              <Text style={styles.modalTitle2}>
-                {hora ? hora : "Seleccionar Hora"}
-              </Text>
+              <Text style={styles.modalTitle2}>{hora ? hora : "Seleccionar Hora"}</Text>
             </TouchableOpacity>
             <TimePickerModal
               visible={visible}
               onDismiss={() => setVisible(false)}
               onConfirm={(output) => {
                 setTime(output);
-                const formattedTime = `${output.hours}:${output.minutes < 10 ? '0' : ''}${output.minutes}`;
+                const formattedTime = `${output.hours}:${output.minutes < 10 ? "0" : ""}${output.minutes}`;
                 setHora(formattedTime);
                 setVisible(false);
               }}

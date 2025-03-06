@@ -46,6 +46,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 10,
   },
+  emptyText: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#888",
+    marginTop: 20,
+  },
+  
   timeText: {
     color: "#FFF",
     fontSize: 14,
