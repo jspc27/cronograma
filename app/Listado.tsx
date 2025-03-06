@@ -62,32 +62,35 @@ export default function Listado() {
           </View>
 
           <View style={styles.activityContainer}>
-  <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Pasear a sacar el perro") }]}>
-    <Text style={styles.timeText}>8:00 AM</Text>
-  </View>
-  <Text style={styles.activityText}>Pasear a sacar el perro</Text>
-</View>
-<View style={styles.separator} />
-<View style={styles.activityContainer}>
-  <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Reunión de trabajo") }]}>
-    <Text style={styles.timeText}>10:00 AM</Text>
-  </View>
-  <Text style={styles.activityText}>Reunión de trabajo</Text>
-</View>
-<View style={styles.separator} />
-<View style={styles.activityContainer}>
-  <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Almuerzo con amigos") }]}>
-    <Text style={styles.timeText}>1:00 PM</Text>
-  </View>
-  <Text style={styles.activityText}>Almuerzo con amigos</Text>
-</View>
-<View style={styles.separator} />
-<View style={styles.activityContainer}>
-  <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Gimnasio") }]}>
-    <Text style={styles.timeText}>6:00 PM</Text>
-  </View>
-  <Text style={styles.activityText}>Gimnasio</Text>
-</View>
+            <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Pasear a sacar el perro") }]}>
+              <Text style={styles.timeText}>8:00 AM</Text>
+            </View>
+            <Text style={styles.activityText}>Pasear a sacar el perro</Text>
+          </View>
+          <View style={styles.separator} />
+
+            <View style={styles.activityContainer}>
+              <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Reunión de trabajo") }]}>
+                <Text style={styles.timeText}>10:00 AM</Text>
+              </View>
+              <Text style={styles.activityText}>Reunión de trabajo</Text>
+            </View>
+            <View style={styles.separator} />
+          
+          <View style={styles.activityContainer}>
+            <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Almuerzo con amigos") }]}>
+              <Text style={styles.timeText}>1:00 PM</Text>
+            </View>
+            <Text style={styles.activityText}>Almuerzo con amigos</Text>
+          </View>
+          
+          <View style={styles.separator} />
+          <View style={styles.activityContainer}>
+              <View style={[styles.timeBadge, { backgroundColor: getColorForActivity("Gimnasio") }]}>
+                <Text style={styles.timeText}>6:00 PM</Text>
+              </View>
+            <Text style={styles.activityText}>Gimnasio</Text>
+          </View>
 
 
         </SafeAreaView>

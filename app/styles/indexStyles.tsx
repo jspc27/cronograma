@@ -182,14 +182,14 @@ container2: {
   },
   dia: {
     width: "13%",
-    height: 50,
-    margin: 1,
+    height: 45,
+    margin: 2,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
     shadowColor: "#000",
     elevation: 3,
-    borderRadius: 5,
+    borderRadius: 100,
   },
   textoDia: {
     fontSize: 16,
