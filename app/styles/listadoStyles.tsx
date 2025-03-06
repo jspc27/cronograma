@@ -104,6 +104,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1D3557",
   },
+  modalTitle2:{
+    fontSize: 16,
+    color: "#1D3557",
+    alignItems: "center",
+  },
+  hora:{
+    marginTop: 11,
+    backgroundColor: "#EAEDED",
+    borderRadius: 20,
+    padding: 10,
+    alignItems: "stretch",
+    shadowColor: "#000",
+    shadowRadius: 4,
+    elevation: 5,
+    width: "60%",
+  },
   priorityButton: {
     backgroundColor: "#1D3557",
     borderRadius: 20,

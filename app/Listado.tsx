@@ -7,6 +7,7 @@ import styles from "./styles/listadoStyles";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from "react-native-popup-menu";
+import { TimePickerModal } from "react-native-paper-dates";
 
 type ListadoRouteProp = RouteProp<StackParamList, "Listado">;
 
@@ -14,12 +15,15 @@ export default function Listado() {
   const route = useRoute<ListadoRouteProp>();
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
 
+  const [visible, setVisible] = useState(false);
+  const [time, setTime] = useState({ hours: 0, minutes: 0 });
+
   const [modalVisible, setModalVisible] = useState(false);
   const [activity, setActivity] = useState("");
-  // const [priority, setPriority] = useState("Normal");
+  const [hora, setHora] = useState("");
 
   const getColorForActivity = (activity: string) => {
-    const colors = ["#2A9D8F", "#E76F51", "#F4A261", "#E9C46A", "#264653"]; 
+    const colors = ["#28A745", "#FF9800", "#007BFF", "#E91E63", "#FFC107"]; 
     let hash = 0;
     for (let i = 0; i < activity.length; i++) {
       hash = activity.charCodeAt(i) + ((hash << 5) - hash);
@@ -34,10 +38,11 @@ export default function Listado() {
   };
 
   const handleSave = () => {
-    Alert.alert("Actividad guardada", `Actividad: ${activity}`);
+    const formattedTime = `${time.hours}:${time.minutes < 10 ? '0' : ''}${time.minutes}`;
+    Alert.alert("Actividad guardada", `Actividad: ${activity}\nHora: ${formattedTime}`);
     setModalVisible(false);
     setActivity("");
-    // setPriority("Normal");
+    setHora("");
   };
 
   return (
@@ -122,22 +127,29 @@ export default function Listado() {
           <View style={styles.modalView}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Agregar Actividad</Text>
-              
-              <Menu>
-              <MenuTrigger>
-                <Icon name="more-vert" size={24} color="#1D3557" />
-              </MenuTrigger>
-              <MenuOptions>
-                <MenuOption onSelect={() => Alert.alert('Option 1')} text='Option 1' />
-                <MenuOption onSelect={() => Alert.alert('Option 2')} text='Option 2' />
-              </MenuOptions>
-            </Menu>
             </View>
             <TextInput
               style={styles.input}
               placeholder="Escribe la actividad"
               value={activity}
               onChangeText={setActivity}
+            />
+            <TouchableOpacity onPress={() => setVisible(true)} style={styles.hora}>
+              <Text style={styles.modalTitle2}>
+                {hora ? hora : "Seleccionar Hora"}
+              </Text>
+            </TouchableOpacity>
+            <TimePickerModal
+              visible={visible}
+              onDismiss={() => setVisible(false)}
+              onConfirm={(output) => {
+                setTime(output);
+                const formattedTime = `${output.hours}:${output.minutes < 10 ? '0' : ''}${output.minutes}`;
+                setHora(formattedTime);
+                setVisible(false);
+              }}
+              hours={time.hours}
+              minutes={time.minutes}
             />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
