@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, SafeAreaView, Image, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../app/styles/indexStyles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -49,6 +49,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
           <View style={styles.box2}>

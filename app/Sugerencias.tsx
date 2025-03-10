@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Linking } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Linking, StatusBar } from "react-native";
 import styles from "./styles/sugerenciaStyles";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -16,6 +16,7 @@ export default function Sugerencias() {
   return (
     <>
       <View style={styles.header}>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
         <Icon name="arrow-back" size={20} color="#fff" />
         </TouchableOpacity>

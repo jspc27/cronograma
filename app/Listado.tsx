@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, 
-  Alert, KeyboardAvoidingView, Platform, FlatList 
+  Alert, KeyboardAvoidingView, Platform, FlatList, StatusBar 
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
@@ -27,8 +27,8 @@ export default function Listado() {
   const [activities, setActivities] = useState<{ id: number; actividad: string; hora: string }[]>([]);
 
   useEffect(() => {
-    createTable(); //Crear la tabla en SQLite
-    loadActivities(); //Cargar las actividades guardadas
+    createTable();
+    loadActivities(); 
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -69,9 +69,17 @@ export default function Listado() {
     return colors[index % colors.length];
   };
 
+  const formatTime = (hours: number, minutes: number) => {
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
+  };
+
   return (
     <MenuProvider>
       <SafeAreaView style={globalStyles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
             <Icon name="arrow-back" size={20} color="#fff" />
@@ -100,18 +108,21 @@ export default function Listado() {
           </View>
         </View>
 
-        <FlatList
-          data={activities}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => (
-            <View style={styles.activityContainer}>
-              <View style={[styles.timeBadge, { backgroundColor: getColorForIndex(index) }]}>
-                <Text style={styles.timeText}>{item.hora}</Text>
-              </View>
-              <Text style={styles.activityText}>{item.actividad}</Text>
-            </View>
-          )}
-          ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
+        <FlatList 
+        data={activities}
+  
+        keyExtractor={(item) => item.id.toString()}
+  
+        renderItem={({ item, index }) => (
+        <View style={styles.activityContainer}>
+          <View style={[styles.timeBadge, { backgroundColor: getColorForIndex(index) }]}>
+        <Text style={styles.timeText}>{item.hora}</Text>
+        </View>
+        <Text style={styles.activityText}>{item.actividad}</Text>
+        </View>
+        )}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
         />
       </SafeAreaView>
 
@@ -144,7 +155,7 @@ export default function Listado() {
               onDismiss={() => setVisible(false)}
               onConfirm={(output) => {
                 setTime(output);
-                const formattedTime = `${output.hours}:${output.minutes < 10 ? "0" : ""}${output.minutes}`;
+                const formattedTime = formatTime(output.hours, output.minutes);
                 setHora(formattedTime);
                 setVisible(false);
               }}
