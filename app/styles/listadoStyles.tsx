@@ -191,6 +191,92 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+
+  prioridadAlta: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "red",
+    position: "absolute",
+    right: 10,
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10,
+  },
+  switchLabel: {
+    fontSize: 16,
+    color: "#1D3557",
+  },
+  //editar eliminar
+  selectedActivity: {
+    backgroundColor: "#E0E0E0",
+  },
+  actionButtonsContainer: {
+    flexDirection: "column", 
+    justifyContent: "space-between",
+    padding: 20,
+  },
+  deleteButton: {
+    backgroundColor: "#FF0000",
+    padding: 10, 
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10, 
+    width: "50%",
+  },
+  deleteButtonText: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  editButton: {
+    backgroundColor: "#007BFF",
+    padding: 10, 
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10, 
+    width: "50%",
+  },
+  editButtonText: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  cancelButton1: {
+    backgroundColor: "#1D3557",
+    padding: 10, 
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "50%",
+  },
+  cancelButtonText1: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  selectionCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#1D3557",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  innerCircle: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#1D3557",
+  },
   
 });
 
