@@ -39,7 +39,7 @@ export default function Listado() {
 
   const loadActivities = async () => {
     try {
-      const data = await getActivities();
+      const data = await getActivities(route.params.fecha);
       setActivities(data as { id: number; actividad: string; hora: string }[]);
     } catch (error) {
       console.error("❌ Error al cargar actividades", error);
@@ -53,7 +53,7 @@ export default function Listado() {
     }
 
     try {
-      await insertActivity(activity, hora);
+      await insertActivity(activity, hora, route.params.fecha);
       setModalVisible(false);
       setActivity("");
       setHora("");

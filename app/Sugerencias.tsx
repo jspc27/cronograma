@@ -25,7 +25,7 @@ export default function Sugerencias() {
         <ScrollView contentContainerStyle={styles.gridContainer}>
           {/* Primera fila */}
           <View style={styles.verticalContainer}>
-            <TouchableOpacity style={[styles.box, styles.smallBox, { backgroundColor: "#28A745" }]} onPress={() => openLink('https://www.upla.cl/noticias/wp-content/uploads/2020/05/guia-entrenamiento-avanzado.pdf')}>
+            <TouchableOpacity style={[styles.box, styles.smallBox, { backgroundColor: "#28A745" }]} onPress={() => openLink('https://www.superprof.co/blog/rutinas-diferentes-niveles/')}>
               <Text style={styles.text}>Ejercicio</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.box, styles.smallBox, { backgroundColor: "#FF9800" }]} onPress={() => openLink('https://yogaconblanca.com/rutinas-yoga/')}>
