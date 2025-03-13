@@ -181,7 +181,6 @@ export default function HomeScreen() {
           {/* Gráficas */}
           <View style={styles.chartsContainer}>
             <View style={styles.pieChartsRow}>
-              {/* Círculo de progreso para estado de tareas */}
               <View style={styles.pieChartContainer}>
                 <ProgressCircle
                   size={70}
@@ -192,7 +191,6 @@ export default function HomeScreen() {
                   valueLabel="70%"
                 />
               </View>
-              {/* Círculo de progreso para tareas completadas */}
               <View style={styles.pieChartContainer}>
                 <ProgressCircle
                   size={70}

@@ -9,21 +9,7 @@ export const styles = StyleSheet.create({
     fontSize: 32,
     color: "#1D3557",
   },
-  logoContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 15,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-  },
-
+  
   // Footer
   footer: {
     width: "100%",
@@ -77,8 +63,8 @@ export const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingHorizontal: 16,
-    marginTop: 25, 
+    paddingHorizontal: 15,
+    marginTop: 10, 
     paddingBottom: 80,
   },
 
@@ -123,7 +109,7 @@ export const styles = StyleSheet.create({
   calendarWrapper: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   
   container2: {
@@ -139,7 +125,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 6,
     paddingHorizontal: 20,
   },
 
@@ -200,7 +185,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 7,
     backgroundColor: '#fff',
     borderRadius: 20,
-    marginBottom: 15,
+    marginBottom: 10,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -214,7 +199,7 @@ export const styles = StyleSheet.create({
   pieChartsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 10,
     paddingHorizontal: 5,
   },
   
