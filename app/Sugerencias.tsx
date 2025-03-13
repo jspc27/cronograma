@@ -16,7 +16,7 @@ export default function Sugerencias() {
   return (
     <>
       <View style={styles.header}>
-      <StatusBar translucent={true} backgroundColor="transparent" />
+      <StatusBar barStyle="dark-content" backgroundColor="#F6FBFF" />
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
         <Icon name="arrow-back" size={20} color="#fff" />
         </TouchableOpacity>

@@ -1,19 +1,61 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "../app/styles/indexStyles";
+import { styles } from "../app/styles/indexStyles"; // Asegúrate de que la ruta sea correcta
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../App"; 
+import { BarChart } from "react-native-chart-kit";
+import ProgressCircle from "../app/componentes/ProgressCircle"; // Asegúrate de crear este archivo
 
 const diasSemana = ["D", "L", "M", "M", "J", "V", "S"];
+const screenWidth = Dimensions.get("window").width;
 
 export default function HomeScreen() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [fecha, setFecha] = useState(new Date());
 
+  // Datos para la gráfica de barras
+  const actividadesPorMes = {
+    labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+    datasets: [
+      {
+        data: [20, 45, 28, 35, 26, 30, 42, 39, 29, 36, 40, 33],
+        color: (opacity = 1) => `#FF9800`,
+        strokeWidth: 2
+      }
+    ]
+  };
+
+  // Datos para los círculos de progreso
+  const tareasCompletadas = {
+    porcentaje: 50, 
+    color: "#E91E63"
+  };
+  
+  const distribucionTareas = {
+    completadas: {
+      porcentaje: 70,
+      color: "#28A745"
+    },
+  };
+
+  const chartConfig = {
+    backgroundGradientFrom: "#fff",
+    backgroundGradientTo: "#fff",
+    color: (opacity = 1) => `#FF9800`, // Color principal de la app
+    strokeWidth: 2,
+    barPercentage: 0.6,
+    decimalPlaces: 0,
+    useShadowColorFromDataset: false,
+    labelColor: (opacity = 1) => `rgba(29, 53, 87, ${opacity})`,
+    style: {
+      borderRadius: 16
+    }
+  };
+
   const obtenerNombreMes = () => {
-    const opciones: Intl.DateTimeFormatOptions = { month: "long", year: "numeric" };
+    const opciones = { month: "long" as const, year: "numeric" as const };
     return fecha.toLocaleDateString("es-ES", opciones);
   };
 
@@ -26,11 +68,11 @@ export default function HomeScreen() {
   const diasEnMes = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0).getDate();
   const primerDiaMes = new Date(fecha.getFullYear(), fecha.getMonth(), 1).getDay();
 
-  const generarMatrizCalendario = (): (number | null)[][] => {
-    const matriz: (number | null)[][] = [];
+  const generarMatrizCalendario = () => {
+    const matriz = [];
     let diaActual = 1;
     for (let i = 0; i < 6; i++) {
-      const semana: (number | null)[] = [];
+      const semana = [];
       for (let j = 0; j < 7; j++) {
         if ((i === 0 && j < primerDiaMes) || diaActual > diasEnMes) {
           semana.push(null);
@@ -46,19 +88,17 @@ export default function HomeScreen() {
   };
 
   const calendarioMatriz = generarMatrizCalendario();
+  
+  // Obtener el día actual para resaltarlo
+  const fechaActual = new Date();
+  const esMismoMes = fecha.getMonth() === fechaActual.getMonth() && fecha.getFullYear() === fechaActual.getFullYear();
+  const diaActual = fechaActual.getDate();
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <StatusBar barStyle="dark-content" backgroundColor="#F6FBFF" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
-          <View style={styles.box2}>
-            <Text style={styles.boxText}>
-              El éxito es la suma de pequeños esfuerzos repetidos día tras día.
-            </Text>
-            <Image source={require("../assets/images/bentobox.gif")} style={styles.libreta} />
-          </View>
-
           {/* Calendario */}
           <View style={styles.calendarWrapper}>
             <View style={styles.container2}>
@@ -79,11 +119,16 @@ export default function HomeScreen() {
               </View>
 
               {calendarioMatriz.map((semana, indexSemana) => (
-                <View key={indexSemana} style={{ flexDirection: "row", justifyContent: "space-around", width: "100%" }}>
+                <View key={indexSemana} style={{ flexDirection: "row", justifyContent: "space-around", width: "100%", marginBottom: 6 }}>
                   {semana.map((dia, indexDia) => (
                     <TouchableOpacity
                       key={indexDia}
-                      style={[styles.dia, { opacity: dia ? 1 : 0 }]}
+                      style={[
+                        styles.dia, 
+                        { opacity: dia ? 1 : 0 },
+                        dia && esMismoMes && dia === diaActual ? 
+                          { backgroundColor: "#00A8CC", shadowColor: "#00A8CC", shadowOpacity: 0.5, shadowRadius: 5 } : {}
+                      ]}
                       disabled={!dia} 
                       onPress={() => {
                         if (dia) {
@@ -91,13 +136,76 @@ export default function HomeScreen() {
                         }
                       }}
                     >
-                      {dia ? <Text style={styles.textoDia}>{dia}</Text> : null}
+                      {dia ? 
+                        <Text style={[
+                          styles.textoDia, 
+                          dia && esMismoMes && dia === diaActual ? { color: "#fff" } : {}
+                        ]}>
+                          {dia}
+                        </Text> : null}
                     </TouchableOpacity>
                   ))}
                 </View>
               ))}
             </View>
           </View>
+
+          {/* Gráfica de barras */}
+<View style={styles.chartsContainer}>
+  <View style={styles.barChartContainer}>
+    <Text style={styles.barChartTitle}>Actividades por mes en el año</Text>
+    <BarChart
+      data={actividadesPorMes}
+      width={screenWidth - 60}  // Reducir ancho
+      height={150}  // Reducir altura
+      chartConfig={{
+        ...chartConfig,
+        barPercentage: 0.5,  // Disminuir tamaño de las barras
+        propsForLabels: {
+          fontSize: 10,  // Reducir tamaño de etiquetas
+          rotation: -20  // Menos inclinación de etiquetas
+        }
+      }}
+      yAxisLabel=""
+      yAxisSuffix=""
+      fromZero
+      showValuesOnTopOfBars
+      style={{
+        marginVertical: 3,
+      }}
+    />
+  </View>
+</View>
+
+          
+          {/* Gráficas */}
+          <View style={styles.chartsContainer}>
+            <View style={styles.pieChartsRow}>
+              {/* Círculo de progreso para estado de tareas */}
+              <View style={styles.pieChartContainer}>
+                <ProgressCircle
+                  size={70}
+                  strokeWidth={11}
+                  percentage={distribucionTareas.completadas.porcentaje}
+                  color={distribucionTareas.completadas.color}
+                  label="Total de actividades en el mes"
+                  valueLabel="70%"
+                />
+              </View>
+              {/* Círculo de progreso para tareas completadas */}
+              <View style={styles.pieChartContainer}>
+                <ProgressCircle
+                  size={70}
+                  strokeWidth={11}
+                  percentage={tareasCompletadas.porcentaje}
+                  color={tareasCompletadas.color}
+                  label="Actividades completadas en el mes"
+                  valueLabel="50%"
+                />
+              </View>
+            </View>
+          </View>
+          
         </View>
       </ScrollView>
 

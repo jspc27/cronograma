@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  //footer
+  // Footer
   footer: {
     width: "100%",
     position: "absolute",
@@ -32,61 +32,63 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    paddingVertical: 6,
+    paddingVertical: 8,
     backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -3 }, 
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 10, 
+    height: 60,
   },
   
+  footerButton: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-footerButton: {
-  alignItems: "center",
-  justifyContent: "center",
-},
+  footerIconContainer: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "#00A8CC",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-footerIconContainer: {
-  width: 50,
-  height: 50,
-  borderRadius: 25,
-  backgroundColor: "#00A8CC",
-  alignItems: "center",
-  justifyContent: "center",
-},
+  footerButtonHome: {
+    marginTop: -25, 
+  },
 
-footerButtonHome: {
-  marginTop: -20, 
-},
+  footerIconContainerHome: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    backgroundColor: "#00A8CC",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "#fff",
+  },
 
-footerIconContainerHome: {
-  width: 65,
-  height: 65,
-  borderRadius: 32.5,
-  backgroundColor: "#00A8CC",
-  alignItems: "center",
-  justifyContent: "center",
-},
-
-
-  // Ajuste de contenido
+  // Contenido
   content: {
     flex: 1,
     width: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingHorizontal: 10,
-    marginTop: 30, 
+    paddingHorizontal: 16,
+    marginTop: 25, 
+    paddingBottom: 80,
   },
 
   box2: {
     width: "100%",
-    height: "12%",
-    backgroundColor:"#00A8CC",
+    height: 90,
+    backgroundColor: "#00A8CC",
     borderRadius: 15,
     elevation: 5,
-    marginBottom: 30,
+    marginBottom: 24,
     flexDirection: "row",
     justifyContent: "space-between", 
     alignItems: "center",
@@ -94,107 +96,170 @@ footerIconContainerHome: {
     paddingVertical: 15,
   },
   
-
   boxText: {
     fontSize: 16,
+    fontWeight: "500",
     color: "#fff",
     flex: 1, 
     textAlign: "left",
   },  
-
- 
   
-
   libreta: {
     width: "20%",
     height: undefined,
     aspectRatio: 1.0,
-    marginBottom: 10,
+    marginLeft: 10,
     borderRadius: 30,
   },
 
-  //scroll
+  // Scroll
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
-    paddingBottom: 50, // Agrega espacio al final para evitar que el último elemento quede pegado
-  },
-  calendarContainer: {
-    width: "100%",
-    alignItems: "center",
+    paddingBottom: 70,
   },
   
-
-
-
   // Calendario
+  calendarWrapper: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  
+  container2: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    elevation: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+
   headerC: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 5,
+    marginBottom: 6,
     paddingHorizontal: 20,
   },
 
-  calendarWrapper: {
-  width: "100%",
-  alignItems: "center",
-  marginBottom: 20,
-},
-container2: {
-  width: "100%",
-  backgroundColor: "#fff",
-  borderRadius: 20,
-  elevation: 5,
-  paddingVertical: 10,
-  alignItems: "center",
-},
-
   titulo: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#1D3557",
     textTransform: "capitalize",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
   },
+  
   flecha: {
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: "bold",
-    color: "#1D3557",
+    color: "#00A8CC",
   },
+  
   diasSemana: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    paddingBottom: 5,
+    borderBottomColor: "#eee",
+    paddingBottom: 8,
   },
+  
   diaSemana: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    width: 48,
+    width: 40,
     textAlign: "center",
     color: "#1D3557",
   },
+  
   dia: {
-    width: "13%",
-    height: 45,
-    margin: 2,
+    width: 27,
+    height: 27,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
     shadowColor: "#000",
-    elevation: 3,
-    borderRadius: 100,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 4,
+    borderRadius: 20,
   },
+  
   textoDia: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: "#1D3557",
+  },
+  
+  // Estilos para los gráficos
+  chartsContainer: {
+    width: "100%",
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  
+  pieChartsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    paddingHorizontal: 5,
+  },
+  
+  pieChartContainer: {
+    width: '48%',
+    alignItems: 'center',
+  },
+  
+  barChartContainer: {
+    marginTop: 2,
+    width: '100%',
+    alignItems: 'center',
+    borderTopColor: '#eee',
+  },
+  
+  barChartTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 15,
+    color: '#1D3557',
+  },
+  
+  // Estilos para las leyendas
+  legendContainer: {
+    marginTop: 15,
+    width: '100%',
+  },
+  
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  
+  legendColor: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: 6,
+  },
+  
+  legendText: {
+    fontSize: 12,
+    color: '#555',
   },
 });
 
