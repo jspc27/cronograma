@@ -191,9 +191,6 @@ export default function Listado() {
                 <TouchableOpacity onPress={toggleSearch}>
                   <Icon name="search" size={24} color="#1D3557" />
                 </TouchableOpacity>
-                <TouchableOpacity>
-                  <Icon name="filter-list" size={24} color="#1D3557" />
-                </TouchableOpacity>
                 <Menu>
                   <MenuTrigger>
                     <Icon name="more-vert" size={24} color="#1D3557" />

@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 6,
     backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -3 }, 
