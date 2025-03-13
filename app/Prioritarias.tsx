@@ -5,7 +5,7 @@ export default function Estadisticas() {
   return (
     <View>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <Text>Pantalla de Estadísticas</Text>
+      <Text>Pantalla de actividades con prioridad</Text>
     </View>
   );
 }

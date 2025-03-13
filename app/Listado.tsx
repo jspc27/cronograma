@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
-  View, Text, SafeAreaView, TouchableOpacity, Modal, TextInput, 
-  Alert, KeyboardAvoidingView, Platform, FlatList, StatusBar, Switch 
+  View, Text, SafeAreaView, TouchableOpacity, TextInput, 
+  StatusBar, Animated, Easing, FlatList, Modal, Alert, KeyboardAvoidingView, Platform, Switch 
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
@@ -26,10 +26,14 @@ export default function Listado() {
   const [hora, setHora] = useState("");
   const [prioridad, setPrioridad] = useState(false);
   const [activities, setActivities] = useState<{ id: number; actividad: string; hora: string; prioridad: number }[]>([]);
+  const [filteredActivities, setFilteredActivities] = useState<{ id: number; actividad: string; hora: string; prioridad: number }[]>([]);
   const [selectedActivities, setSelectedActivities] = useState<number[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [searchExpanded, setSearchExpanded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const animation = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
     createTable();
@@ -46,6 +50,7 @@ export default function Listado() {
     try {
       const data = await getActivities(route.params.fecha);
       setActivities(data as { id: number; actividad: string; hora: string; prioridad: number }[]);
+      setFilteredActivities(data as { id: number; actividad: string; hora: string; prioridad: number }[]);
     } catch (error) {
       console.error("❌ Error al cargar actividades", error);
     }
@@ -114,6 +119,48 @@ export default function Listado() {
     setIsEditing(false);
   };
 
+  const toggleSearch = () => {
+    Animated.timing(animation, {
+      toValue: searchExpanded ? 0 : 1,
+      duration: 200, // Reducir la duración para una transición más rápida
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: false,
+    }).start(() => {
+      setSearchExpanded(!searchExpanded);
+    });
+  };
+
+  const handleSearch = (text: string) => {
+    setSearchQuery(text);
+    if (text) {
+      const filtered = activities.filter((activity) =>
+        activity.actividad.toLowerCase().includes(text.toLowerCase()) ||
+        activity.hora.includes(text)
+      );
+      setFilteredActivities(filtered);
+    } else {
+      setFilteredActivities(activities);
+    }
+  };
+
+  const animatedHeaderStyle = {
+    transform: [
+      { rotateX: animation.interpolate({ inputRange: [0, 1], outputRange: ["0deg", "90deg"] }) },
+      { scaleY: animation.interpolate({ inputRange: [0, 1], outputRange: [1, 0.6] }) },
+    ],
+    opacity: animation.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }),
+  };
+
+  const animatedSearchStyle = {
+    transform: [{ scaleX: animation.interpolate({ inputRange: [0, 1], outputRange: [0, 1] }) }],
+    opacity: animation,
+    position: "absolute" as "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  };
+
   const colors = ["#28A745", "#FF9800", "#007BFF", "#E91E63", "#FFC107"];
 
   const getColorForIndex = (index: number): string => {
@@ -131,36 +178,55 @@ export default function Listado() {
     <MenuProvider>
       <SafeAreaView style={globalStyles.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
-            <Icon name="arrow-back" size={20} color="#fff" />
-          </TouchableOpacity>
 
-          <Text style={styles.Text}>
-            {route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}
-          </Text>
+        {/* Header con animación */}
+        <Animated.View style={[styles.header, animatedHeaderStyle]}> 
+          {!searchExpanded && (
+            <>
+              <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
+                <Icon name="arrow-back" size={20} color="#fff" />
+              </TouchableOpacity>
+              <Text style={styles.Text}>{route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}</Text>
+              <View style={styles.iconContainer}>
+                <TouchableOpacity onPress={toggleSearch}>
+                  <Icon name="search" size={24} color="#1D3557" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Icon name="filter-list" size={24} color="#1D3557" />
+                </TouchableOpacity>
+                <Menu>
+                  <MenuTrigger>
+                    <Icon name="more-vert" size={24} color="#1D3557" />
+                  </MenuTrigger>
+                  <MenuOptions>
+                    <MenuOption onSelect={() => setIsDeleting(true)} text="Eliminar" />
+                    <MenuOption onSelect={() => setIsEditing(true)} text="Editar" />
+                  </MenuOptions>
+                </Menu>
+              </View>
+            </>
+          )}
+        </Animated.View>
 
-          <View style={styles.iconContainer}>
-            <TouchableOpacity>
-              <Icon name="search" size={24} color="#1D3557" />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Icon name="filter-list" size={24} color="#1D3557" />
-            </TouchableOpacity>
-            <Menu>
-              <MenuTrigger>
-                <Icon name="more-vert" size={24} color="#1D3557" />
-              </MenuTrigger>
-              <MenuOptions>
-                <MenuOption onSelect={() => setIsDeleting(true)} text="Eliminar" />
-                <MenuOption onSelect={() => setIsEditing(true)} text="Editar" />
-              </MenuOptions>
-            </Menu>
-          </View>
-        </View>
+        {/* Barra de búsqueda animada */}
+        {searchExpanded && (
+          <Animated.View style={[styles.header, animatedSearchStyle]}>  
+            <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#f0f0f0", borderRadius: 10, paddingHorizontal: 10 }}>
+              <TextInput
+                style={{ flex: 1, height: 40 }}
+                placeholder="Buscar..."
+                value={searchQuery}
+                onChangeText={handleSearch}
+              />
+              <TouchableOpacity onPress={toggleSearch}>
+                <Text style={{ color: "#1D3557", marginLeft: 10 }}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        )}
 
         <FlatList 
-          data={activities}
+          data={filteredActivities}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
             <TouchableOpacity
@@ -204,62 +270,62 @@ export default function Listado() {
             </TouchableOpacity>
           </View>
         )}
-      </SafeAreaView>
 
-      <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-        <Icon name="add" size={30} color="#fff" />
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
+          <Icon name="add" size={30} color="#fff" />
+        </TouchableOpacity>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{isEditing ? "Editar Actividad" : "Agregar Actividad"}</Text>
-            </View>
-            <TextInput
-              style={styles.input}
-              placeholder="Escribe la actividad"
-              value={activity}
-              onChangeText={setActivity}
-            />
-            <TouchableOpacity onPress={() => setVisible(true)} style={styles.hora}>
-              <Text style={styles.modalTitle2}>{hora ? hora : "Seleccionar Hora"}</Text>
-            </TouchableOpacity>
-            <TimePickerModal
-              visible={visible}
-              onDismiss={() => setVisible(false)}
-              onConfirm={(output) => {
-                setTime(output);
-                const formattedTime = formatTime(output.hours, output.minutes);
-                setHora(formattedTime);
-                setVisible(false);
-              }}
-              hours={time.hours}
-              minutes={time.minutes}
-            />
-            <View style={styles.switchContainer}>
-              <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
-              <Switch
-                value={prioridad}
-                onValueChange={setPrioridad}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.modalContainer}>
+            <View style={styles.modalView}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>{isEditing ? "Editar Actividad" : "Agregar Actividad"}</Text>
+              </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Escribe la actividad"
+                value={activity}
+                onChangeText={setActivity}
               />
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancelButtonText}>Cancelar</Text>
+              <TouchableOpacity onPress={() => setVisible(true)} style={styles.hora}>
+                <Text style={styles.modalTitle2}>{hora ? hora : "Seleccionar Hora"}</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveButtonText}>{isEditing ? "Actualizar" : "Guardar"}</Text>
-              </TouchableOpacity>
+              <TimePickerModal
+                visible={visible}
+                onDismiss={() => setVisible(false)}
+                onConfirm={(output) => {
+                  setTime(output);
+                  const formattedTime = formatTime(output.hours, output.minutes);
+                  setHora(formattedTime);
+                  setVisible(false);
+                }}
+                hours={time.hours}
+                minutes={time.minutes}
+              />
+              <View style={styles.switchContainer}>
+                <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
+                <Switch
+                  value={prioridad}
+                  onValueChange={setPrioridad}
+                />
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                  <Text style={styles.cancelButtonText}>Cancelar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                  <Text style={styles.saveButtonText}>{isEditing ? "Actualizar" : "Guardar"}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
+          </KeyboardAvoidingView>
+        </Modal>
+      </SafeAreaView>
     </MenuProvider>
   );
 }

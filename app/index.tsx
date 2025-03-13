@@ -103,7 +103,7 @@ export default function HomeScreen() {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Estadisticas")}> 
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Prioritarias")}> 
           <View style={styles.footerIconContainer}>
             <Icon name="chart-bar" size={30} color="#fff" />
           </View>
