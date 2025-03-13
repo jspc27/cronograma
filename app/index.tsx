@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "../app/styles/indexStyles"; // Asegúrate de que la ruta sea correcta
+import { styles } from "../app/styles/indexStyles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StackParamList } from "../App"; 
+import { StackParamList } from "../App";
 import { BarChart } from "react-native-chart-kit";
-import ProgressCircle from "../app/componentes/ProgressCircle"; // Asegúrate de crear este archivo
+import ProgressCircle from "../app/componentes/ProgressCircle";
 
 const diasSemana = ["D", "L", "M", "M", "J", "V", "S"];
 const screenWidth = Dimensions.get("window").width;
@@ -29,10 +29,10 @@ export default function HomeScreen() {
 
   // Datos para los círculos de progreso
   const tareasCompletadas = {
-    porcentaje: 50, 
+    porcentaje: 50,
     color: "#E91E63"
   };
-  
+
   const distribucionTareas = {
     completadas: {
       porcentaje: 70,
@@ -43,7 +43,7 @@ export default function HomeScreen() {
   const chartConfig = {
     backgroundGradientFrom: "#fff",
     backgroundGradientTo: "#fff",
-    color: (opacity = 1) => `#FF9800`, // Color principal de la app
+    color: (opacity = 1) => `#FF9800`,
     strokeWidth: 2,
     barPercentage: 0.6,
     decimalPlaces: 0,
@@ -88,7 +88,7 @@ export default function HomeScreen() {
   };
 
   const calendarioMatriz = generarMatrizCalendario();
-  
+
   // Obtener el día actual para resaltarlo
   const fechaActual = new Date();
   const esMismoMes = fecha.getMonth() === fechaActual.getMonth() && fecha.getFullYear() === fechaActual.getFullYear();
@@ -124,21 +124,21 @@ export default function HomeScreen() {
                     <TouchableOpacity
                       key={indexDia}
                       style={[
-                        styles.dia, 
+                        styles.dia,
                         { opacity: dia ? 1 : 0 },
-                        dia && esMismoMes && dia === diaActual ? 
+                        dia && esMismoMes && dia === diaActual ?
                           { backgroundColor: "#00A8CC", shadowColor: "#00A8CC", shadowOpacity: 0.5, shadowRadius: 5 } : {}
                       ]}
-                      disabled={!dia} 
+                      disabled={!dia}
                       onPress={() => {
                         if (dia) {
                           navigation.navigate("Listado", { fecha: `${dia}/${fecha.getMonth() + 1}/${fecha.getFullYear()}` });
                         }
                       }}
                     >
-                      {dia ? 
+                      {dia ?
                         <Text style={[
-                          styles.textoDia, 
+                          styles.textoDia,
                           dia && esMismoMes && dia === diaActual ? { color: "#fff" } : {}
                         ]}>
                           {dia}
@@ -151,33 +151,32 @@ export default function HomeScreen() {
           </View>
 
           {/* Gráfica de barras */}
-<View style={styles.chartsContainer}>
-  <View style={styles.barChartContainer}>
-    <Text style={styles.barChartTitle}>Actividades por mes en el año</Text>
-    <BarChart
-      data={actividadesPorMes}
-      width={screenWidth - 60}  // Reducir ancho
-      height={150}  // Reducir altura
-      chartConfig={{
-        ...chartConfig,
-        barPercentage: 0.5,  // Disminuir tamaño de las barras
-        propsForLabels: {
-          fontSize: 10,  // Reducir tamaño de etiquetas
-          rotation: -20  // Menos inclinación de etiquetas
-        }
-      }}
-      yAxisLabel=""
-      yAxisSuffix=""
-      fromZero
-      showValuesOnTopOfBars
-      style={{
-        marginVertical: 3,
-      }}
-    />
-  </View>
-</View>
+          <View style={styles.chartsContainer}>
+            <View style={styles.barChartContainer}>
+              <Text style={styles.barChartTitle}>Actividades por mes en el año</Text>
+              <BarChart
+                data={actividadesPorMes}
+                width={screenWidth - 60}  // Reducir ancho
+                height={150}  // Reducir altura
+                chartConfig={{
+                  ...chartConfig,
+                  barPercentage: 0.5,  // Disminuir tamaño de las barras
+                  propsForLabels: {
+                    fontSize: 10,  // Reducir tamaño de etiquetas
+                    rotation: -20  // Menos inclinación de etiquetas
+                  }
+                }}
+                yAxisLabel=""
+                yAxisSuffix=""
+                fromZero
+                showValuesOnTopOfBars
+                style={{
+                  marginVertical: 3,
+                }}
+              />
+            </View>
+          </View>
 
-          
           {/* Gráficas */}
           <View style={styles.chartsContainer}>
             <View style={styles.pieChartsRow}>
@@ -203,25 +202,24 @@ export default function HomeScreen() {
               </View>
             </View>
           </View>
-          
         </View>
       </ScrollView>
 
       {/* Footer */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Prioritarias")}> 
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Prioridad")}>
           <View style={styles.footerIconContainer}>
             <Icon name="chart-bar" size={30} color="#fff" />
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.footerButtonHome} onPress={() => navigation.navigate("index")}> 
+        <TouchableOpacity style={styles.footerButtonHome} onPress={() => navigation.navigate("index")}>
           <View style={styles.footerIconContainerHome}>
             <Icon name="home" size={40} color="#fff" />
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Sugerencias")}> 
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Sugerencias")}>
           <View style={styles.footerIconContainer}>
             <Icon name="lightbulb-on-outline" size={30} color="#fff" />
           </View>

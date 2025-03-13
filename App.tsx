@@ -1,18 +1,17 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Prioritarias from "./app/Prioritarias";
+import Prioridad from "./app/Prioridad";
 import Sugerencias from "./app/Sugerencias";
 import Listado from "./app/Listado";
-import index from "./app/index";
+import HomeScreen from "./app/index"; // Asegúrate de que el nombre del componente sea correcto
 import { MenuProvider } from "react-native-popup-menu";
 
 // Definir los tipos de navegación
 export type StackParamList = {
   Home: undefined;
-  Prioritarias: undefined;
+  Prioridad: undefined;
   Sugerencias: undefined;
-  Calendario: undefined;
   Listado: { fecha: string };
   index: undefined;
 };
@@ -23,8 +22,8 @@ export default function App() {
     <NavigationContainer>
       <MenuProvider>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" component={index} />
-          <Stack.Screen name="Prioritarias" component={Prioritarias} />
+          <Stack.Screen name="index" component={HomeScreen} />
+          <Stack.Screen name="Prioridad" component={Prioridad} />
           <Stack.Screen name="Sugerencias" component={Sugerencias} />
           <Stack.Screen name="Listado" component={Listado} />
         </Stack.Navigator>
