@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     width: 52,
     height: 52,
     borderRadius: 26,
-    backgroundColor: "#00A8CC",
+    backgroundColor: "#1D3557",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     width: 68,
     height: 68,
     borderRadius: 34,
-    backgroundColor: "#00A8CC",
+    backgroundColor: "#1D3557",
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 3,
@@ -138,7 +138,7 @@ export const styles = StyleSheet.create({
   flecha: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#00A8CC",
+    color: "#1D3557",
   },
   
   diasSemana: {

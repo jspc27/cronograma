@@ -12,6 +12,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from "react-native-popup-menu";
 import { TimePickerModal } from "react-native-paper-dates";
 import { createTable, insertActivity, getActivities, deleteActivities, updateActivity } from "../app/database/database";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 type ListadoRouteProp = RouteProp<StackParamList, "Listado">;
 
@@ -177,35 +178,36 @@ export default function Listado() {
   return (
     <MenuProvider>
       <SafeAreaView style={globalStyles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
 
-        {/* Header con animación */}
-        <Animated.View style={[styles.header, animatedHeaderStyle]}> 
-          {!searchExpanded && (
-            <>
-              <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
-                <Icon name="arrow-back" size={20} color="#fff" />
-              </TouchableOpacity>
-              <Text style={styles.Text}>{route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}</Text>
-              <View style={styles.iconContainer}>
-                <TouchableOpacity onPress={toggleSearch}>
-                  <Icon name="search" size={24} color="#1D3557" />
-                </TouchableOpacity>
-                <Menu>
-                  <MenuTrigger>
-                    <Icon name="more-vert" size={24} color="#1D3557" />
-                  </MenuTrigger>
-                  <MenuOptions>
-                    <MenuOption onSelect={() => setIsDeleting(true)} text="Eliminar" />
-                    <MenuOption onSelect={() => setIsEditing(true)} text="Editar" />
-                  </MenuOptions>
-                </Menu>
-              </View>
-            </>
-          )}
-        </Animated.View>
+      <Animated.View style={[styles.header, animatedHeaderStyle]}>
+  {!searchExpanded && (
+    <>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
+        <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
+      </TouchableOpacity>
+      <Text style={styles.headerTitle}>
+        {route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}
+      </Text>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={toggleSearch}>
+          <MaterialCommunityIcons name="magnify" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Menu>
+          <MenuTrigger>
+            <MaterialCommunityIcons name="dots-vertical"  size={24} color="#fff" />
+          </MenuTrigger>
+          <MenuOptions>
+            <MenuOption onSelect={() => setIsDeleting(true)} text="Eliminar" />
+            <MenuOption onSelect={() => setIsEditing(true)} text="Editar" />
+          </MenuOptions>
+        </Menu>
+      </View>
+    </>
+  )}
+</Animated.View>
 
-        {/* Barra de búsqueda animada */}
+
         {searchExpanded && (
           <Animated.View style={[styles.header, animatedSearchStyle]}>  
             <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#f0f0f0", borderRadius: 10, paddingHorizontal: 10 }}>
@@ -304,13 +306,16 @@ export default function Listado() {
                 hours={time.hours}
                 minutes={time.minutes}
               />
-              <View style={styles.switchContainer}>
-                <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
-                <Switch
-                  value={prioridad}
-                  onValueChange={setPrioridad}
-                />
-              </View>
+
+<View style={styles.switchContainer}>
+  <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
+  <Switch
+    value={prioridad}
+    onValueChange={setPrioridad}
+    style={styles.switch}
+  />
+</View>
+              
               <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
                   <Text style={styles.cancelButtonText}>Cancelar</Text>

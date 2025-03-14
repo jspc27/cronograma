@@ -96,7 +96,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F6FBFF" />
+     <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
           {/* Calendario */}
@@ -127,7 +127,7 @@ export default function HomeScreen() {
                         styles.dia,
                         { opacity: dia ? 1 : 0 },
                         dia && esMismoMes && dia === diaActual ?
-                          { backgroundColor: "#00A8CC", shadowColor: "#00A8CC", shadowOpacity: 0.5, shadowRadius: 5 } : {}
+                          { backgroundColor: "#1D3557", shadowColor: "#00A8CC", shadowOpacity: 0.5, shadowRadius: 5 } : {}
                       ]}
                       disabled={!dia}
                       onPress={() => {
@@ -209,7 +209,7 @@ export default function HomeScreen() {
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate("Prioridad")}>
           <View style={styles.footerIconContainer}>
-            <Icon name="chart-bar" size={30} color="#fff" />
+            <Icon name="alert-circle-outline" size={30} color="#fff" />
           </View>
         </TouchableOpacity>
 
