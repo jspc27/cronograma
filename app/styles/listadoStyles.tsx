@@ -98,21 +98,20 @@ const styles = StyleSheet.create({
   },
   
   addButton: {
-    position: "absolute",
-    bottom: 25,
-    right: 25,
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: "#1D3557",
-    padding: 15,
-    borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
-    shadowRadius: 4.5,
+    shadowRadius: 4,
     elevation: 6,
-    width: 60,
-    height: 60,
   },
   modalContainer: {
     flex: 1,
@@ -374,6 +373,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     flex: 1,
     backgroundColor: "#F5F7FA",
+  },
+
+  scrollContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
   },
 });
 

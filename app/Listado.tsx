@@ -223,7 +223,7 @@ export default function Listado() {
             </View>
           </Animated.View>
         )}
-
+        
         <FlatList 
           data={filteredActivities}
           keyExtractor={(item) => item.id.toString()}
