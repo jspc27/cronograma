@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "@/App";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const openLink = (url: string) => {
   Linking.openURL(url).catch((err) => console.error("Error al abrir el enlace:", err));
@@ -15,13 +16,17 @@ export default function Sugerencias() {
 
   return (
     <>
-      <View style={styles.header}>
-      <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
-        <Icon name="arrow-back" size={20} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.Text}>Recomendaciones para tus actividades</Text>
-      </View>
+<View style={styles.header}>
+  <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
+  <TouchableOpacity 
+    style={styles.backButton} 
+    onPress={() => navigation.navigate("index")}
+  >
+    <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
+  </TouchableOpacity>
+  <Text style={styles.headerTitle}>Sugerencias de actividades</Text>
+</View>
+
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.gridContainer}>
           {/* Primera fila */}
