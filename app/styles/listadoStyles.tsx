@@ -379,6 +379,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
   },
+  taskCardCompleted: {
+    opacity: 0.7,
+    backgroundColor: "#F8F8F8",
+  },
 });
 
 export default styles;

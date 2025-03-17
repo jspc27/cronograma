@@ -13,6 +13,7 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from "react-
 import { TimePickerModal } from "react-native-paper-dates";
 import { createTable, insertActivity, getActivities, deleteActivities, updateActivity } from "../app/database/database";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { styles as prioridadStyles } from "../app/styles/prioridadStyles";
 
 type ListadoRouteProp = RouteProp<StackParamList, "Listado">;
 
@@ -35,6 +36,9 @@ export default function Listado() {
   const [searchExpanded, setSearchExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const animation = useState(new Animated.Value(0))[0];
+  const [completedActivities, setCompletedActivities] = useState<number[]>([]);
+  
+  
 
   useEffect(() => {
     createTable();
@@ -123,7 +127,7 @@ export default function Listado() {
   const toggleSearch = () => {
     Animated.timing(animation, {
       toValue: searchExpanded ? 0 : 1,
-      duration: 200, // Reducir la duración para una transición más rápida
+      duration: 200, 
       easing: Easing.inOut(Easing.ease),
       useNativeDriver: false,
     }).start(() => {
@@ -143,6 +147,7 @@ export default function Listado() {
       setFilteredActivities(activities);
     }
   };
+  
 
   const animatedHeaderStyle = {
     transform: [
@@ -174,7 +179,20 @@ export default function Listado() {
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   };
-
+  const toggleCompleted = (id: number) => {
+    // Si estamos en modo eliminación o edición, usa la función original
+    if (isDeleting || isEditing) {
+      toggleSelectActivity(id);
+      return;
+    }
+    
+    // Si no, cambia el estado de completado
+    setCompletedActivities(prev => 
+      prev.includes(id) 
+        ? prev.filter(activityId => activityId !== id) 
+        : [...prev, id]
+    );
+  };
   return (
     <MenuProvider>
       <SafeAreaView style={globalStyles.container}>
@@ -225,31 +243,76 @@ export default function Listado() {
         )}
         
         <FlatList 
-          data={filteredActivities}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity
-              onPress={() => isDeleting || isEditing ? toggleSelectActivity(item.id) : null}
-              style={[
-                styles.activityContainer,
-                selectedActivities.includes(item.id) && styles.selectedActivity,
-              ]}
-            >
-              {(isDeleting || isEditing) && (
-                <View style={styles.selectionCircle}>
-                  {selectedActivities.includes(item.id) && <View style={styles.innerCircle} />}
-                </View>
-              )}
-              <View style={[styles.timeBadge, { backgroundColor: getColorForIndex(index) }]}>
-                <Text style={styles.timeText}>{item.hora}</Text>
-              </View>
-              <Text style={styles.activityText}>{item.actividad}</Text>
-              {item.prioridad === 1 && <View style={styles.prioridadAlta} />}
-            </TouchableOpacity>
+  data={filteredActivities}
+  keyExtractor={(item) => item.id.toString()}
+  renderItem={({ item, index }) => (
+    <TouchableOpacity
+      onPress={() => toggleCompleted(item.id)}
+      style={[
+        prioridadStyles.taskCard,
+        selectedActivities.includes(item.id) && styles.selectedActivity,
+        completedActivities.includes(item.id) && prioridadStyles.taskCardCompleted
+      ]}
+    >
+      {(isDeleting || isEditing) && (
+        <View style={styles.selectionCircle}>
+          {selectedActivities.includes(item.id) && <View style={styles.innerCircle} />}
+        </View>
+      )}
+      
+      <View style={prioridadStyles.taskHeader}>
+        <View style={prioridadStyles.taskTitleContainer}>
+          <View 
+            style={[
+              prioridadStyles.priorityIndicator, 
+              { backgroundColor: getColorForIndex(index) }
+            ]} 
+          />
+          <Text style={[
+            prioridadStyles.taskTitle,
+            completedActivities.includes(item.id) && {
+              textDecorationLine: 'line-through',
+              color: '#8A8A8E'
+            }
+          ]}>
+            {item.actividad}
+          </Text>
+        </View>
+        <View style={prioridadStyles.checkButton}>
+          {item.prioridad === 1 ? (
+            <MaterialCommunityIcons 
+              name="pin" 
+              size={24} 
+              color="#EC0000" 
+            />
+          ) : (
+            <MaterialCommunityIcons 
+              name={completedActivities.includes(item.id) ? "check-circle" : "circle-outline"} 
+              size={24} 
+              color={completedActivities.includes(item.id) ? "#34C759" : "#8A8A8E"} 
+            />
           )}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
-        />
+        </View>
+      </View>
+      
+      <View style={prioridadStyles.taskFooter}>
+        <View style={prioridadStyles.tagContainer}>
+          <Text 
+            style={[
+              prioridadStyles.priorityTag, 
+              {backgroundColor: getColorForIndex(index)}
+            ]}
+          >
+            {item.hora}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )}
+  ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+  ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
+  contentContainerStyle={{ padding: 16 }}
+/>
 
         {isDeleting && (
           <View style={styles.actionButtonsContainer}>
@@ -306,15 +369,16 @@ export default function Listado() {
                 hours={time.hours}
                 minutes={time.minutes}
               />
-
-<View style={styles.switchContainer}>
-  <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
-  <Switch
-    value={prioridad}
-    onValueChange={setPrioridad}
-    style={styles.switch}
-  />
-</View>
+              
+              
+              <View style={styles.switchContainer}>
+                <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
+                <Switch
+                value={prioridad}
+                onValueChange={setPrioridad}
+                style={styles.switch}
+                />
+              </View>
               
               <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>

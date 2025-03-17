@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
+    marginBottom: 10,
   },
   backButton: {
     padding: 8,
@@ -30,34 +31,6 @@ export const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 8,
-  },
-  summaryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 16,
-    marginBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E5E5",
-  },
-  summaryItem: {
-    alignItems: 'center',
-  },
-  summaryNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: "#1D3557",
-  },
-  summaryLabel: {
-    fontSize: 14,
-    color: "#8A8A8E",
-    marginTop: 4,
-  },
-  summaryDivider: {
-    width: 1,
-    height: '60%',
-    backgroundColor: "#E5E5E5",
-    alignSelf: 'center',
   },
   scrollContainer: {
     flex: 1,
@@ -78,6 +51,14 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
     backgroundColor: "#F8F8F8",
   },
+
+emptyText: {
+  textAlign: 'center',
+  color: '#8A8A8E',
+  fontSize: 16,
+  marginTop: 40,
+  padding: 20,
+},
   taskHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -107,12 +88,6 @@ export const styles = StyleSheet.create({
   },
   checkButton: {
     padding: 4,
-  },
-  taskDescription: {
-    fontSize: 14,
-    color: "#4A4A4A",
-    marginBottom: 12,
-    lineHeight: 20,
   },
   taskFooter: {
     flexDirection: 'row',
@@ -151,19 +126,6 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 6,
-  },
-  Text: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-    position: "absolute",
-    left: "50%",
-    transform: [{ translateX: -50 }],
-  },
-  iconContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
   },
 });
 

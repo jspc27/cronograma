@@ -1,59 +1,52 @@
 import React, { useState } from "react";
-import { 
-  View, 
-  Text, 
-  StatusBar, 
-  ScrollView, 
-  TouchableOpacity, 
-  SafeAreaView, 
-  Image 
-} from "react-native";
+import { View, Text, StatusBar, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { styles } from "../app/styles/prioridadStyles";
-import lisglobal from "../app/styles/listadoStyles";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "@/App";
+import { getActividadesPrioritarias } from "../app/database/database";
 
 export default function Prioridad() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
-  
-  const [actividadesPrioridad, setActividadesPrioridad] = useState([
-    {
-      id: 1,
-      titulo: "Completar el informe trimestral",
-      descripcion: "Finalizar y enviar al supervisor antes del viernes",
-      prioridad: "Alta",
-      fecha: "15/03/2025",
-      completada: false
-    },
-    {
-      id: 2,
-      titulo: "Reunión con el equipo de desarrollo",
-      descripcion: "Revisar avances del proyecto y asignar nuevas tareas",
-      prioridad: "Media",
-      fecha: "16/03/2025",
-      completada: false
-    },
-    {
-      id: 3,
-      titulo: "Revisar el código de la nueva funcionalidad",
-      descripcion: "Verificar y corregir errores antes de la integración",
-      prioridad: "Alta",
-      fecha: "14/03/2025",
-      completada: false
-    },
-    {
-      id: 4,
-      titulo: "Planificar la próxima sprint",
-      descripcion: "Definir objetivos y distribuir tareas para el equipo",
-      prioridad: "Media",
-      fecha: "17/03/2025",
-      completada: false
-    },
-  ]);
+  const [actividadesPrioridad, setActividadesPrioridad] = useState<
+    { id: number; descripcion: string; hora: string; fecha: string; prioridad: number; completada: boolean }[]
+  >([]);
+  const [completedActivities, setCompletedActivities] = useState<number[]>([]);
+
+  // Cargar actividades prioritarias cuando se enfoca la pantalla
+  useFocusEffect(
+    React.useCallback(() => {
+      cargarActividadesPrioritarias();
+      return () => {}; 
+    }, [])
+  );
+
+  const cargarActividadesPrioritarias = async () => {
+    try {
+      const datosPrioridad = await getActividadesPrioritarias();
+      // Mapear resultados de la base de datos al formato esperado
+      const actividadesFormateadas = datosPrioridad.map(item => ({
+        id: item.id,
+        descripcion: item.actividad, // Mapear 'actividad' a 'descripcion' para compatibilidad
+        hora: item.hora,
+        fecha: item.fecha,
+        prioridad: item.prioridad,
+        completada: completedActivities.includes(item.id)
+      }));
+      setActividadesPrioridad(actividadesFormateadas);
+    } catch (error) {
+      console.error("❌ Error al cargar actividades prioritarias", error);
+    }
+  };
 
   const toggleCompleted = (id: number) => {
+    setCompletedActivities(prev => 
+      prev.includes(id) 
+        ? prev.filter(activityId => activityId !== id) 
+        : [...prev, id]
+    );
+    
     setActividadesPrioridad(
       actividadesPrioridad.map(actividad => 
         actividad.id === id ? {...actividad, completada: !actividad.completada} : actividad
@@ -61,13 +54,9 @@ export default function Prioridad() {
     );
   };
 
-  const getPrioridadColor = (prioridad: string) => {
-    switch(prioridad) {
-      case "Alta": return "#FF3B30";
-      case "Media": return "#FF9500";
-      case "Baja": return "#34C759";
-      default: return "#007AFF";
-    }
+  const getHoraColor = (index: number) => {
+    const colors = ["#FF0000", "#FF9800", "#EC0000", "#CC0000", "#E91E63"];
+    return colors[index % colors.length];
   };
 
   return (
@@ -86,6 +75,66 @@ export default function Prioridad() {
           <MaterialCommunityIcons name="filter-variant" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
+      
+      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+        {actividadesPrioridad.length === 0 ? (
+          <Text style={styles.emptyText}>No hay actividades prioritarias</Text>
+        ) : (
+          actividadesPrioridad.map((actividad, index) => (
+            <TouchableOpacity 
+              key={actividad.id} 
+              style={[
+                styles.taskCard,
+                actividad.completada && styles.taskCardCompleted
+              ]}
+              onPress={() => toggleCompleted(actividad.id)}
+            >
+              <View style={styles.taskHeader}>
+                <View style={styles.taskTitleContainer}>
+                  <View 
+                    style={[
+                      styles.priorityIndicator, 
+                      {backgroundColor: getHoraColor(index)}
+                    ]} 
+                  />
+                  <Text 
+                    style={[
+                      styles.taskTitle,
+                      actividad.completada && styles.taskTitleCompleted
+                    ]}
+                  >
+                    {actividad.descripcion}
+                  </Text>
+                </View>
+                <View style={styles.checkButton}>
+                  <MaterialCommunityIcons 
+                    name="pin" 
+                    size={24} 
+                    color="#EC0000" 
+                  />
+                </View>
+              </View>
+              
+              <View style={styles.taskFooter}>
+                <View style={styles.tagContainer}>
+                  <Text 
+                    style={[
+                      styles.priorityTag, 
+                      {backgroundColor: getHoraColor(index)}
+                    ]}
+                  >
+                    {actividad.hora}
+                  </Text>
+                </View>
+                <Text style={styles.dateText}>
+                  <MaterialCommunityIcons name="calendar" size={14} color="#8A8A8E" />
+                  {" "}{actividad.fecha}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 }
