@@ -55,7 +55,7 @@ export default function Prioridad() {
   };
 
   const getHoraColor = (index: number) => {
-    const colors = ["#FF0000", "#FF9800", "#EC0000", "#CC0000", "#E91E63"];
+    const colors = ["#FF0000"];
     return colors[index % colors.length];
   };
 
