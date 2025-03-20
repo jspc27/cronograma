@@ -6,6 +6,8 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F6FBFF",
+    width: "100%",
+    height: "100%", 
   },
   title: {
     fontSize: 32,
@@ -93,19 +95,23 @@ export const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 15,
     marginBottom: 3,
+    backgroundColor: "#1D3557",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20, 
   },
+  
 
   titulo: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1D3557",
+    color: "#fff",
     textTransform: "capitalize",
   },
   
   flecha: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#1D3557",
+    color: "#fff",
   },
   
   arrowButton: {
@@ -194,7 +200,7 @@ export const styles = StyleSheet.create({
     width: '45%',
     backgroundColor: '#fff',
     padding: 15,
-    borderRadius: 20, // Aplica un borde general suave
+    borderRadius: 20, 
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: "#000",
@@ -203,18 +209,18 @@ export const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
     marginHorizontal: 10,
-    marginBottom: -10, // Ajusta la posición respecto al footer
-    borderTopLeftRadius: 10, // Esquina superior izquierda
-    borderTopRightRadius: 10, // Esquina superior derecha
-    borderBottomLeftRadius: 10, // Mantener sin curvatura
-    borderBottomRightRadius: 30, // Solo curva en la esquina donde está el botón central
+    marginBottom: -5, 
+    borderTopLeftRadius: 10, 
+    borderTopRightRadius: 10, 
+    borderBottomLeftRadius: 10, 
+    borderBottomRightRadius: 30, 
   },
   
   pieChartContainerLeft: {
     width: '45%',
     backgroundColor: '#fff',
     padding: 15,
-    borderRadius: 20, // Aplica un borde general suave
+    borderRadius: 20, 
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: "#000",
@@ -223,11 +229,11 @@ export const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
     marginHorizontal: 10,
-    marginBottom: -10, // Ajusta la posición respecto al footer
-    borderTopLeftRadius: 10, // Esquina superior izquierda
-    borderTopRightRadius: 10, // Esquina superior derecha
-    borderBottomLeftRadius: 30, // Mantener sin curvatura
-    borderBottomRightRadius: 10, // Solo curva en la esquina donde está el botón central
+    marginBottom: -5, 
+    borderTopLeftRadius: 10, 
+    borderTopRightRadius: 10, 
+    borderBottomLeftRadius: 30, 
+    borderBottomRightRadius: 10, 
   },
   
   barChartContainer: {
