@@ -14,8 +14,6 @@ const screenWidth = Dimensions.get("window").width;
 export default function HomeScreen() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [fecha, setFecha] = useState(new Date());
-
-  // Datos para la gráfica de barras con etiquetas abreviadas para mejor visualización
   const actividadesPorMes = {
     labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
     datasets: [
@@ -39,13 +37,12 @@ export default function HomeScreen() {
     },
   };
 
-  // Configuración de la gráfica ajustada para mostrar etiquetas de meses
   const chartConfig = {
     backgroundGradientFrom: "#fff",
     backgroundGradientTo: "#fff",
     color: (opacity = 1) => `#FF9800`,
     strokeWidth: 2,
-    barPercentage: 0.5, // Ajustado para un buen espacio entre barras
+    barPercentage: 0.5,
     decimalPlaces: 0,
     useShadowColorFromDataset: false,
     labelColor: (opacity = 1) => `rgba(29, 53, 87, ${opacity})`,
@@ -154,8 +151,8 @@ export default function HomeScreen() {
           <View style={styles.barChartContainer}>
             <BarChart
               data={actividadesPorMes}
-              width={screenWidth - 40} 
-              height={130} 
+              width={screenWidth - 40}
+              height={130}
               chartConfig={{
                 ...chartConfig,
                 barPercentage: 0.5,
@@ -169,7 +166,7 @@ export default function HomeScreen() {
                   stroke: "#f0f0f0",
                   strokeWidth: 1
                 },
-                formatYLabel: (value) => value.toString(), 
+                formatYLabel: (value) => value.toString(),
               }}
               yAxisLabel=""
               yAxisSuffix=""
@@ -188,42 +185,42 @@ export default function HomeScreen() {
               withHorizontalLabels={true}
               flatColor={true}
               yLabelsOffset={10}
-              xLabelsOffset={-14} 
-              horizontalLabelRotation={0} 
+              xLabelsOffset={-14}
+              horizontalLabelRotation={0}
             />
           </View>
         </View>
 
         {/* Gráficas circulares */}
 
-  {/* Contenedor padre invisible para alinear con la gráfica de barras */}
-<View style={styles.pieChartsWrapper}>
-  <View style={styles.pieChartsRow}>
-    {/* Primera gráfica circular */}
-    <View style={styles.pieChartContainer}>
-      <ProgressCircle
-        size={60}
-        strokeWidth={10}
-        percentage={distribucionTareas.completadas.porcentaje}
-        color={distribucionTareas.completadas.color}
-        label="Actividades completadas"
-        valueLabel="70%"
-      />
-    </View>
+        {/* Contenedor padre invisible para alinear con la gráfica de barras */}
+        <View style={styles.pieChartsWrapper}>
+          <View style={styles.pieChartsRow}>
+            {/* Primera gráfica circular */}
+            <View style={styles.pieChartContainer}>
+              <ProgressCircle
+                size={60}
+                strokeWidth={10}
+                percentage={distribucionTareas.completadas.porcentaje}
+                color={distribucionTareas.completadas.color}
+                label="Actividades completadas"
+                valueLabel="70%"
+              />
+            </View>
 
-    {/* Segunda gráfica circular */}
-    <View style={styles.pieChartContainerLeft}>
-      <ProgressCircle
-        size={60}
-        strokeWidth={10}
-        percentage={tareasCompletadas.porcentaje}
-        color={tareasCompletadas.color}
-        label="Tareas completadas"
-        valueLabel="50%"
-      />
-    </View>
-  </View>
-</View>
+            {/* Segunda gráfica circular */}
+            <View style={styles.pieChartContainerLeft}>
+              <ProgressCircle
+                size={60}
+                strokeWidth={10}
+                percentage={tareasCompletadas.porcentaje}
+                color={tareasCompletadas.color}
+                label="actividades pendientes hoy"
+                valueLabel="50%"
+              />
+            </View>
+          </View>
+        </View>
 
       </View>
 

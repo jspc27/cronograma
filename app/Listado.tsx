@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, Text, SafeAreaView, TouchableOpacity, TextInput, 
-  StatusBar, Animated, Easing, FlatList, Modal, Alert, KeyboardAvoidingView, Platform, Switch 
+import {
+  View, Text, SafeAreaView, TouchableOpacity, TextInput,
+  StatusBar, Animated, Easing, FlatList, Modal, Alert, KeyboardAvoidingView, Platform, Switch
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackParamList } from "../App";
@@ -38,12 +38,12 @@ export default function Listado() {
   const [searchQuery, setSearchQuery] = useState("");
   const animation = useState(new Animated.Value(0))[0];
   const [completedActivities, setCompletedActivities] = useState<number[]>([]);
-  
-  
+
+
 
   useEffect(() => {
     Database.createTable();
-    loadActivities(); 
+    loadActivities();
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -80,7 +80,7 @@ export default function Listado() {
       setActivity("");
       setHora("");
       setPrioridad(false);
-      loadActivities(); 
+      loadActivities();
     } catch (error) {
       console.error("❌ Error al guardar actividad", error);
     }
@@ -128,7 +128,7 @@ export default function Listado() {
   const toggleSearch = () => {
     Animated.timing(animation, {
       toValue: searchExpanded ? 0 : 1,
-      duration: 200, 
+      duration: 200,
       easing: Easing.inOut(Easing.ease),
       useNativeDriver: false,
     }).start(() => {
@@ -148,7 +148,7 @@ export default function Listado() {
       setFilteredActivities(activities);
     }
   };
-  
+
 
   const animatedHeaderStyle = {
     transform: [
@@ -176,56 +176,68 @@ export default function Listado() {
 
   const formatTime = (hours: number, minutes: number) => {
     const ampm = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 || 12; 
+    const formattedHours = hours % 12 || 12;
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   };
   const toggleCompleted = (id: number) => {
-    if (isDeleting || isEditing) {
-      toggleSelectActivity(id);
+    if (completedActivities.includes(id)) {
+      Alert.alert("Actividad completada", "Esta actividad ya está marcada como completada y no se puede desmarcar o editar.");
       return;
     }
-    setCompletedActivities(prev => 
-      prev.includes(id) 
-        ? prev.filter(activityId => activityId !== id) 
-        : [...prev, id]
+
+    Alert.alert(
+      "Marcar como completada",
+      "¿Deseas marcar la actividad como completada?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Sí",
+          onPress: () => {
+            setCompletedActivities((prev) => [...prev, id]);
+          },
+        },
+      ]
     );
   };
   return (
     <MenuProvider>
       <SafeAreaView style={globalStyles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
+        <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
 
-      <Animated.View style={[styles.header, animatedHeaderStyle]}>
-  {!searchExpanded && (
-    <>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
-        <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
-      </TouchableOpacity>
-      <Text style={styles.headerTitle}>
-        {route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}
-      </Text>
-      <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={toggleSearch}>
-          <MaterialCommunityIcons name="magnify" size={24} color="#fff" />
-        </TouchableOpacity>
-        <Menu>
-          <MenuTrigger>
-            <MaterialCommunityIcons name="dots-vertical"  size={24} color="#fff" />
-          </MenuTrigger>
-          <MenuOptions>
-            <MenuOption onSelect={() => setIsDeleting(true)} text="Eliminar" />
-            <MenuOption onSelect={() => setIsEditing(true)} text="Editar" />
-          </MenuOptions>
-        </Menu>
-      </View>
-    </>
-  )}
-</Animated.View>
+        <Animated.View style={[styles.header, animatedHeaderStyle]}>
+          {!searchExpanded && (
+            <>
+              <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("index")}>
+                <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>
+                {route.params?.fecha ? formatDate(route.params.fecha) : "No se recibió fecha"}
+              </Text>
+              <View style={styles.iconContainer}>
+                <TouchableOpacity onPress={toggleSearch}>
+                  <MaterialCommunityIcons name="magnify" size={24} color="#fff" />
+                </TouchableOpacity>
+                <Menu>
+                  <MenuTrigger>
+                    <MaterialCommunityIcons name="dots-vertical" size={24} color="#fff" />
+                  </MenuTrigger>
+                  <MenuOptions>
+                    <MenuOption onSelect={() => setIsDeleting(true)} text="Eliminar" />
+                    <MenuOption onSelect={() => setIsEditing(true)} text="Editar" />
+                  </MenuOptions>
+                </Menu>
+              </View>
+            </>
+          )}
+        </Animated.View>
 
 
         {searchExpanded && (
-          <Animated.View style={[styles.header, animatedSearchStyle]}>  
+          <Animated.View style={[styles.header, animatedSearchStyle]}>
             <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#f0f0f0", borderRadius: 10, paddingHorizontal: 10 }}>
               <TextInput
                 style={{ flex: 1, height: 40 }}
@@ -239,78 +251,84 @@ export default function Listado() {
             </View>
           </Animated.View>
         )}
-        
-        <FlatList 
-  data={filteredActivities}
-  keyExtractor={(item) => item.id.toString()}
-  renderItem={({ item, index }) => (
-    <TouchableOpacity
-      onPress={() => toggleCompleted(item.id)}
-      style={[
-        prioridadStyles.taskCard,
-        selectedActivities.includes(item.id) && styles.selectedActivity,
-        completedActivities.includes(item.id) && prioridadStyles.taskCardCompleted
-      ]}
-    >
-      {(isDeleting || isEditing) && (
-        <View style={styles.selectionCircle}>
-          {selectedActivities.includes(item.id) && <View style={styles.innerCircle} />}
-        </View>
-      )}
-      
-      <View style={prioridadStyles.taskHeader}>
-        <View style={prioridadStyles.taskTitleContainer}>
-          <View 
-            style={[
-              prioridadStyles.priorityIndicator, 
-              { backgroundColor: getColorForIndex(index) }
-            ]} 
-          />
-          <Text style={[
-            prioridadStyles.taskTitle,
-            completedActivities.includes(item.id) && {
-              textDecorationLine: 'line-through',
-              color: '#8A8A8E'
-            }
-          ]}>
-            {item.actividad}
-          </Text>
-        </View>
-        <View style={prioridadStyles.checkButton}>
-          {item.prioridad === 1 ? (
-            <MaterialCommunityIcons 
-              name="pin" 
-              size={24} 
-              color="#EC0000" 
-            />
-          ) : (
-            <MaterialCommunityIcons 
-              name={completedActivities.includes(item.id) ? "check-circle" : "circle-outline"} 
-              size={24} 
-              color={completedActivities.includes(item.id) ? "#34C759" : "#8A8A8E"} 
-            />
+
+        <FlatList
+          data={filteredActivities}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+              onPress={() => {
+                if (isDeleting) {
+                  toggleSelectActivity(item.id); 
+                } else {
+                  toggleCompleted(item.id); 
+                }
+              }}
+              style={[
+                prioridadStyles.taskCard,
+                selectedActivities.includes(item.id) && styles.selectedActivity,
+                completedActivities.includes(item.id) && prioridadStyles.taskCardCompleted
+              ]}
+            >
+              {(isDeleting || isEditing) && (
+                <View style={styles.selectionCircle}>
+                  {selectedActivities.includes(item.id) && <View style={styles.innerCircle} />}
+                </View>
+              )}
+
+              <View style={prioridadStyles.taskHeader}>
+                <View style={prioridadStyles.taskTitleContainer}>
+                  <View
+                    style={[
+                      prioridadStyles.priorityIndicator,
+                      { backgroundColor: getColorForIndex(index) }
+                    ]}
+                  />
+                  <Text style={[
+                    prioridadStyles.taskTitle,
+                    completedActivities.includes(item.id) && {
+                      textDecorationLine: 'line-through',
+                      color: '#8A8A8E'
+                    }
+                  ]}>
+                    {item.actividad}
+                  </Text>
+                </View>
+                <View style={prioridadStyles.checkButton}>
+                  {item.prioridad === 1 ? (
+                    <MaterialCommunityIcons
+                      name="pin"
+                      size={24}
+                      color="#EC0000"
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name={completedActivities.includes(item.id) ? "check-circle" : "circle-outline"}
+                      size={24}
+                      color={completedActivities.includes(item.id) ? "#34C759" : "#8A8A8E"}
+                    />
+                  )}
+                </View>
+              </View>
+
+              <View style={prioridadStyles.taskFooter}>
+                <View style={prioridadStyles.tagContainer}>
+                  <Text
+                    style={[
+                      prioridadStyles.priorityTag,
+                      { backgroundColor: getColorForIndex(index) }
+                    ]}
+                  >
+                    {item.hora}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
-        </View>
-      </View>
-      
-      <View style={prioridadStyles.taskFooter}>
-        <View style={prioridadStyles.tagContainer}>
-          <Text 
-            style={[
-              prioridadStyles.priorityTag, 
-              {backgroundColor: getColorForIndex(index)}
-            ]}
-          >
-            {item.hora}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  )}
-  ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-  ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
-  contentContainerStyle={{ padding: 16 }}
-/>
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
+          contentContainerStyle={{ padding: 16 }}
+        />
 
         {isDeleting && (
           <View style={styles.actionButtonsContainer}>
@@ -367,17 +385,17 @@ export default function Listado() {
                 hours={time.hours}
                 minutes={time.minutes}
               />
-              
-              
+
+
               <View style={styles.switchContainer}>
                 <Text style={styles.switchLabel}>¿La actividad tiene prioridad alta?</Text>
                 <Switch
-                value={prioridad}
-                onValueChange={setPrioridad}
-                style={styles.switch}
+                  value={prioridad}
+                  onValueChange={setPrioridad}
+                  style={styles.switch}
                 />
               </View>
-              
+
               <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
                   <Text style={styles.cancelButtonText}>Cancelar</Text>

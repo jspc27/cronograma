@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    height: 60,  
+    height: 60,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -52,13 +52,13 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F8F8F8",
   },
 
-emptyText: {
-  textAlign: 'center',
-  color: '#8A8A8E',
-  fontSize: 16,
-  marginTop: 40,
-  padding: 20,
-},
+  emptyText: {
+    textAlign: 'center',
+    color: '#8A8A8E',
+    fontSize: 16,
+    marginTop: 40,
+    padding: 20,
+  },
   taskHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',

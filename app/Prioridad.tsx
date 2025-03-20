@@ -17,7 +17,7 @@ export default function Prioridad() {
   useFocusEffect(
     React.useCallback(() => {
       cargarActividadesPrioritarias();
-      return () => {}; 
+      return () => { };
     }, [])
   );
 
@@ -26,7 +26,7 @@ export default function Prioridad() {
       const datosPrioridad = await Database.getActividadesPrioritarias();
       const actividadesFormateadas = datosPrioridad.map(item => ({
         id: item.id,
-        descripcion: item.actividad, 
+        descripcion: item.actividad,
         hora: item.hora,
         fecha: item.fecha,
         prioridad: item.prioridad,
@@ -38,18 +38,8 @@ export default function Prioridad() {
     }
   };
 
-  const toggleCompleted = (id: number) => {
-    setCompletedActivities(prev => 
-      prev.includes(id) 
-        ? prev.filter(activityId => activityId !== id) 
-        : [...prev, id]
-    );
-    
-    setActividadesPrioridad(
-      actividadesPrioridad.map(actividad => 
-        actividad.id === id ? {...actividad, completada: !actividad.completada} : actividad
-      )
-    );
+  const toggleCompleted = (id: number, fecha: string) => {
+    navigation.navigate("Listado", { fecha });
   };
 
   const getHoraColor = (index: number) => {
@@ -60,10 +50,10 @@ export default function Prioridad() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
-      
+
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
+        <TouchableOpacity
+          style={styles.backButton}
           onPress={() => navigation.navigate("index")}
         >
           <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
@@ -73,29 +63,29 @@ export default function Prioridad() {
           <MaterialCommunityIcons name="filter-variant" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
-      
+
       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {actividadesPrioridad.length === 0 ? (
           <Text style={styles.emptyText}>No hay actividades prioritarias</Text>
         ) : (
           actividadesPrioridad.map((actividad, index) => (
-            <TouchableOpacity 
-              key={actividad.id} 
+            <TouchableOpacity
+              key={actividad.id}
               style={[
                 styles.taskCard,
                 actividad.completada && styles.taskCardCompleted
               ]}
-              onPress={() => toggleCompleted(actividad.id)}
+              onPress={() => toggleCompleted(actividad.id, actividad.fecha)}
             >
               <View style={styles.taskHeader}>
                 <View style={styles.taskTitleContainer}>
-                  <View 
+                  <View
                     style={[
-                      styles.priorityIndicator, 
-                      {backgroundColor: getHoraColor(index)}
-                    ]} 
+                      styles.priorityIndicator,
+                      { backgroundColor: getHoraColor(index) }
+                    ]}
                   />
-                  <Text 
+                  <Text
                     style={[
                       styles.taskTitle,
                       actividad.completada && styles.taskTitleCompleted
@@ -105,20 +95,20 @@ export default function Prioridad() {
                   </Text>
                 </View>
                 <View style={styles.checkButton}>
-                  <MaterialCommunityIcons 
-                    name="pin" 
-                    size={24} 
-                    color="#EC0000" 
+                  <MaterialCommunityIcons
+                    name="pin"
+                    size={24}
+                    color="#EC0000"
                   />
                 </View>
               </View>
-              
+
               <View style={styles.taskFooter}>
                 <View style={styles.tagContainer}>
-                  <Text 
+                  <Text
                     style={[
-                      styles.priorityTag, 
-                      {backgroundColor: getHoraColor(index)}
+                      styles.priorityTag,
+                      { backgroundColor: getHoraColor(index) }
                     ]}
                   >
                     {actividad.hora}

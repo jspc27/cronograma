@@ -16,16 +16,16 @@ export default function Sugerencias() {
 
   return (
     <>
-<View style={styles.header}>
-  <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
-  <TouchableOpacity 
-    style={styles.backButton} 
-    onPress={() => navigation.navigate("index")}
-  >
-    <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
-  </TouchableOpacity>
-  <Text style={styles.headerTitle}>Sugerencias de actividades</Text>
-</View>
+      <View style={styles.header}>
+        <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate("index")}
+        >
+          <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Sugerencias de actividades</Text>
+      </View>
 
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.gridContainer}>
