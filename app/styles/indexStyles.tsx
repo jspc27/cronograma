@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   container: {
@@ -61,63 +63,27 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     width: "100%",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 15,
-    marginTop: 10, 
-    paddingBottom: 80,
-  },
-
-  box2: {
-    width: "100%",
-    height: 90,
-    backgroundColor: "#00A8CC",
-    borderRadius: 15,
-    elevation: 5,
-    marginBottom: 24,
-    flexDirection: "row",
-    justifyContent: "space-between", 
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  
-  boxText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#fff",
-    flex: 1, 
-    textAlign: "left",
-  },  
-  
-  libreta: {
-    width: "20%",
-    height: undefined,
-    aspectRatio: 1.0,
-    marginLeft: 10,
-    borderRadius: 30,
-  },
-
-  // Scroll
-  scrollContainer: {
-    flexGrow: 1,
-    alignItems: "center",
-    paddingBottom: 70,
+    paddingTop: 10,
+    paddingBottom: 70, 
   },
   
   // Calendario
   calendarWrapper: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   
   container2: {
     backgroundColor: "#fff",
     borderRadius: 20,
     elevation: 4,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingVertical: 2,
+    paddingHorizontal: 3,
+    width: "100%",
   },
 
   headerC: {
@@ -125,7 +91,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    marginBottom: 3,
   },
 
   titulo: {
@@ -136,9 +103,13 @@ export const styles = StyleSheet.create({
   },
   
   flecha: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: "bold",
     color: "#1D3557",
+  },
+  
+  arrowButton: {
+    padding: 6,
   },
   
   diasSemana: {
@@ -147,20 +118,28 @@ export const styles = StyleSheet.create({
     width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
-    paddingBottom: 8,
+    paddingBottom: 5,
+    marginBottom: 3,
   },
   
   diaSemana: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "600",
-    width: 40,
+    width: 30,
     textAlign: "center",
     color: "#1D3557",
   },
   
+  semanaRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    marginBottom: 4,
+  },
+  
   dia: {
-    width: 27,
-    height: 27,
+    width: 30,
+    height: 30,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
@@ -170,81 +149,111 @@ export const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 4,
     borderRadius: 20,
+    margin: 1,
+  },
+  
+  diaActual: {
+    backgroundColor: "#1D3557",
+    shadowColor: "#00A8CC",
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 6,
   },
   
   textoDia: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
     color: "#1D3557",
+  },
+  
+  textoDiaActual: {
+    color: "#fff",
   },
   
   // Estilos para los gráficos
   chartsContainer: {
     width: "100%",
     paddingHorizontal: 10,
-    paddingVertical: 7,
+    paddingVertical: 15,
     backgroundColor: '#fff',
     borderRadius: 20,
-    marginBottom: 10,
+    marginBottom: 8,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
   },
-  
+
   pieChartsRow: {
-    flexDirection: 'row',
+    flexDirection: 'row', 
     justifyContent: 'space-between',
-    marginBottom: 10,
-    paddingHorizontal: 5,
+  },
+
+  pieChartContainer: {
+    width: '45%',
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 20, // Aplica un borde general suave
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+    marginHorizontal: 10,
+    marginBottom: -10, // Ajusta la posición respecto al footer
+    borderTopLeftRadius: 10, // Esquina superior izquierda
+    borderTopRightRadius: 10, // Esquina superior derecha
+    borderBottomLeftRadius: 10, // Mantener sin curvatura
+    borderBottomRightRadius: 30, // Solo curva en la esquina donde está el botón central
   },
   
-  pieChartContainer: {
-    width: '48%',
+  pieChartContainerLeft: {
+    width: '45%',
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 20, // Aplica un borde general suave
     alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+    marginHorizontal: 10,
+    marginBottom: -10, // Ajusta la posición respecto al footer
+    borderTopLeftRadius: 10, // Esquina superior izquierda
+    borderTopRightRadius: 10, // Esquina superior derecha
+    borderBottomLeftRadius: 30, // Mantener sin curvatura
+    borderBottomRightRadius: 10, // Solo curva en la esquina donde está el botón central
   },
   
   barChartContainer: {
-    marginTop: 2,
     width: '100%',
     alignItems: 'center',
-    borderTopColor: '#eee',
+    paddingVertical: 0,
+  },
+  pieChartsWrapper: {
+    width: '100%',  // Misma anchura que la gráfica de barras
+    alignItems: 'center', // Centra el contenido dentro del contenedor
+    paddingVertical: 5,
+  },
+  
+  
+  barChart: {
+    marginVertical: 0,
+    borderRadius: 16,
   },
   
   barChartTitle: {
     fontSize: 13,
     fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 15,
-    color: '#1D3557',
-  },
-  
-  // Estilos para las leyendas
-  legendContainer: {
-    marginTop: 15,
-    width: '100%',
-  },
-  
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 5,
-  },
-  
-  legendColor: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 6,
-  },
-  
-  legendText: {
-    fontSize: 12,
-    color: '#555',
+    color: '#1D3557',
+    paddingTop: 0,
   },
 });
 

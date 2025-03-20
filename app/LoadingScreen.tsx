@@ -22,3 +22,5 @@ const LoadingScreen: React.FC<Props> = ({ onFinish }) => {
   );
 };
 export default LoadingScreen;
+
+//por corregir 

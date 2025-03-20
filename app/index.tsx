@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, StatusBar, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../app/styles/indexStyles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -15,7 +15,7 @@ export default function HomeScreen() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [fecha, setFecha] = useState(new Date());
 
-  // Datos para la gráfica de barras
+  // Datos para la gráfica de barras con etiquetas abreviadas para mejor visualización
   const actividadesPorMes = {
     labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
     datasets: [
@@ -27,7 +27,6 @@ export default function HomeScreen() {
     ]
   };
 
-  // Datos para los círculos de progreso
   const tareasCompletadas = {
     porcentaje: 50,
     color: "#E91E63"
@@ -40,12 +39,13 @@ export default function HomeScreen() {
     },
   };
 
+  // Configuración de la gráfica ajustada para mostrar etiquetas de meses
   const chartConfig = {
     backgroundGradientFrom: "#fff",
     backgroundGradientTo: "#fff",
     color: (opacity = 1) => `#FF9800`,
     strokeWidth: 2,
-    barPercentage: 0.6,
+    barPercentage: 0.5, // Ajustado para un buen espacio entre barras
     decimalPlaces: 0,
     useShadowColorFromDataset: false,
     labelColor: (opacity = 1) => `rgba(29, 53, 87, ${opacity})`,
@@ -89,121 +89,143 @@ export default function HomeScreen() {
 
   const calendarioMatriz = generarMatrizCalendario();
 
-  // Obtener el día actual para resaltarlo
   const fechaActual = new Date();
   const esMismoMes = fecha.getMonth() === fechaActual.getMonth() && fecha.getFullYear() === fechaActual.getFullYear();
   const diaActual = fechaActual.getDate();
 
   return (
     <SafeAreaView style={styles.container}>
-     <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.content}>
-          {/* Calendario */}
-          <View style={styles.calendarWrapper}>
-            <View style={styles.container2}>
-              <View style={styles.headerC}>
-                <TouchableOpacity onPress={() => cambiarMes(-1)}>
-                  <Text style={styles.flecha}>{"<"}</Text>
-                </TouchableOpacity>
-                <Text style={styles.titulo}>{obtenerNombreMes()}</Text>
-                <TouchableOpacity onPress={() => cambiarMes(1)}>
-                  <Text style={styles.flecha}>{">"}</Text>
-                </TouchableOpacity>
-              </View>
+      <StatusBar barStyle="light-content" backgroundColor="#1D3557" />
+      <View style={styles.content}>
+        {/* Calendario */}
+        <View style={styles.calendarWrapper}>
+          <View style={styles.container2}>
+            <View style={styles.headerC}>
+              <TouchableOpacity onPress={() => cambiarMes(-1)} style={styles.arrowButton}>
+                <Text style={styles.flecha}>{"<"}</Text>
+              </TouchableOpacity>
+              <Text style={styles.titulo}>{obtenerNombreMes()}</Text>
+              <TouchableOpacity onPress={() => cambiarMes(1)} style={styles.arrowButton}>
+                <Text style={styles.flecha}>{">"}</Text>
+              </TouchableOpacity>
+            </View>
 
-              <View style={styles.diasSemana}>
-                {diasSemana.map((dia, index) => (
-                  <Text key={index} style={styles.diaSemana}>{dia}</Text>
-                ))}
-              </View>
-
-              {calendarioMatriz.map((semana, indexSemana) => (
-                <View key={indexSemana} style={{ flexDirection: "row", justifyContent: "space-around", width: "100%", marginBottom: 6 }}>
-                  {semana.map((dia, indexDia) => (
-                    <TouchableOpacity
-                      key={indexDia}
-                      style={[
-                        styles.dia,
-                        { opacity: dia ? 1 : 0 },
-                        dia && esMismoMes && dia === diaActual ?
-                          { backgroundColor: "#1D3557", shadowColor: "#00A8CC", shadowOpacity: 0.5, shadowRadius: 5 } : {}
-                      ]}
-                      disabled={!dia}
-                      onPress={() => {
-                        if (dia) {
-                          navigation.navigate("Listado", { fecha: `${dia}/${fecha.getMonth() + 1}/${fecha.getFullYear()}` });
-                        }
-                      }}
-                    >
-                      {dia ?
-                        <Text style={[
-                          styles.textoDia,
-                          dia && esMismoMes && dia === diaActual ? { color: "#fff" } : {}
-                        ]}>
-                          {dia}
-                        </Text> : null}
-                    </TouchableOpacity>
-                  ))}
-                </View>
+            <View style={styles.diasSemana}>
+              {diasSemana.map((dia, index) => (
+                <Text key={index} style={styles.diaSemana}>{dia}</Text>
               ))}
             </View>
-          </View>
 
-          {/* Gráfica de barras */}
-          <View style={styles.chartsContainer}>
-            <View style={styles.barChartContainer}>
-              <Text style={styles.barChartTitle}>Actividades por mes en el año</Text>
-              <BarChart
-                data={actividadesPorMes}
-                width={screenWidth - 60}  // Reducir ancho
-                height={150}  // Reducir altura
-                chartConfig={{
-                  ...chartConfig,
-                  barPercentage: 0.5,  // Disminuir tamaño de las barras
-                  propsForLabels: {
-                    fontSize: 10,  // Reducir tamaño de etiquetas
-                    rotation: -20  // Menos inclinación de etiquetas
-                  }
-                }}
-                yAxisLabel=""
-                yAxisSuffix=""
-                fromZero
-                showValuesOnTopOfBars
-                style={{
-                  marginVertical: 3,
-                }}
-              />
-            </View>
-          </View>
-
-          {/* Gráficas */}
-          <View style={styles.chartsContainer}>
-            <View style={styles.pieChartsRow}>
-              <View style={styles.pieChartContainer}>
-                <ProgressCircle
-                  size={70}
-                  strokeWidth={11}
-                  percentage={distribucionTareas.completadas.porcentaje}
-                  color={distribucionTareas.completadas.color}
-                  label="Total de actividades en el mes"
-                  valueLabel="70%"
-                />
+            {calendarioMatriz.map((semana, indexSemana) => (
+              <View key={indexSemana} style={styles.semanaRow}>
+                {semana.map((dia, indexDia) => (
+                  <TouchableOpacity
+                    key={indexDia}
+                    style={[
+                      styles.dia,
+                      { opacity: dia ? 1 : 0 },
+                      dia && esMismoMes && dia === diaActual ?
+                        styles.diaActual : {}
+                    ]}
+                    disabled={!dia}
+                    onPress={() => {
+                      if (dia) {
+                        navigation.navigate("Listado", { fecha: `${dia}/${fecha.getMonth() + 1}/${fecha.getFullYear()}` });
+                      }
+                    }}
+                  >
+                    {dia ?
+                      <Text style={[
+                        styles.textoDia,
+                        dia && esMismoMes && dia === diaActual ? styles.textoDiaActual : {}
+                      ]}>
+                        {dia}
+                      </Text> : null}
+                  </TouchableOpacity>
+                ))}
               </View>
-              <View style={styles.pieChartContainer}>
-                <ProgressCircle
-                  size={70}
-                  strokeWidth={11}
-                  percentage={tareasCompletadas.porcentaje}
-                  color={tareasCompletadas.color}
-                  label="Actividades completadas en el mes"
-                  valueLabel="50%"
-                />
-              </View>
-            </View>
+            ))}
           </View>
         </View>
-      </ScrollView>
+
+        {/* Gráfica de barras */}
+        <View style={styles.chartsContainer}>
+          <Text style={styles.barChartTitle}>Actividades por mes en el año</Text>
+          <View style={styles.barChartContainer}>
+            <BarChart
+              data={actividadesPorMes}
+              width={screenWidth - 40} 
+              height={130} 
+              chartConfig={{
+                ...chartConfig,
+                barPercentage: 0.5,
+                fillShadowGradientOpacity: 1,
+                propsForLabels: {
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                  fill: "#333",
+                },
+                propsForBackgroundLines: {
+                  stroke: "#f0f0f0",
+                  strokeWidth: 1
+                },
+                formatYLabel: (value) => value.toString(), 
+              }}
+              yAxisLabel=""
+              yAxisSuffix=""
+              fromZero
+              showValuesOnTopOfBars={true}
+              withInnerLines={false}
+              style={{
+                marginVertical: 6,
+                borderRadius: 16,
+                paddingRight: 0,
+                paddingLeft: 0,
+                marginRight: 0,
+                paddingBottom: 0,
+              }}
+              segments={4}
+              withHorizontalLabels={true}
+              flatColor={true}
+              yLabelsOffset={10}
+              xLabelsOffset={-14} 
+              horizontalLabelRotation={0} 
+            />
+          </View>
+        </View>
+
+        {/* Gráficas circulares */}
+
+  {/* Contenedor padre invisible para alinear con la gráfica de barras */}
+<View style={styles.pieChartsWrapper}>
+  <View style={styles.pieChartsRow}>
+    {/* Primera gráfica circular */}
+    <View style={styles.pieChartContainer}>
+      <ProgressCircle
+        size={60}
+        strokeWidth={10}
+        percentage={distribucionTareas.completadas.porcentaje}
+        color={distribucionTareas.completadas.color}
+        label="Actividades completadas"
+        valueLabel="70%"
+      />
+    </View>
+
+    {/* Segunda gráfica circular */}
+    <View style={styles.pieChartContainerLeft}>
+      <ProgressCircle
+        size={60}
+        strokeWidth={10}
+        percentage={tareasCompletadas.porcentaje}
+        color={tareasCompletadas.color}
+        label="Tareas completadas"
+        valueLabel="50%"
+      />
+    </View>
+  </View>
+</View>
+
+      </View>
 
       {/* Footer */}
       <View style={styles.footer}>
