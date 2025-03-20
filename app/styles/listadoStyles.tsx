@@ -89,13 +89,6 @@ const styles = StyleSheet.create({
     flex: 1,
     lineHeight: 22,
   },
-
-  separator: {
-    height: 8,
-    backgroundColor: "transparent",
-    width: "100%",
-    alignSelf: "center",
-  },
   
   addButton: {
     position: 'absolute',

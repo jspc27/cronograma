@@ -11,7 +11,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from "react-native-popup-menu";
 import { TimePickerModal } from "react-native-paper-dates";
-import { createTable, insertActivity, getActivities, deleteActivities, updateActivity } from "../app/database/database";
+import * as Database from "../app/database/database";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles as prioridadStyles } from "../app/styles/prioridadStyles";
 
@@ -41,7 +42,7 @@ export default function Listado() {
   
 
   useEffect(() => {
-    createTable();
+    Database.createTable();
     loadActivities(); 
   }, []);
 
@@ -53,7 +54,7 @@ export default function Listado() {
 
   const loadActivities = async () => {
     try {
-      const data = await getActivities(route.params.fecha);
+      const data = await Database.getActivities(route.params.fecha);
       setActivities(data as { id: number; actividad: string; hora: string; prioridad: number }[]);
       setFilteredActivities(data as { id: number; actividad: string; hora: string; prioridad: number }[]);
     } catch (error) {
@@ -69,11 +70,11 @@ export default function Listado() {
 
     try {
       if (isEditing && editingId !== null) {
-        await updateActivity(editingId, activity, hora, prioridad ? 1 : 0);
+        await Database.updateActivity(editingId, activity, hora, prioridad ? 1 : 0);
         setIsEditing(false);
         setEditingId(null);
       } else {
-        await insertActivity(activity, hora, route.params.fecha, prioridad ? 1 : 0);
+        await Database.insertActivity(activity, hora, route.params.fecha, prioridad ? 1 : 0);
       }
       setModalVisible(false);
       setActivity("");
@@ -87,7 +88,7 @@ export default function Listado() {
 
   const handleDelete = async () => {
     try {
-      await deleteActivities(selectedActivities);
+      await Database.deleteActivities(selectedActivities);
       setSelectedActivities([]);
       setIsDeleting(false);
       loadActivities();
@@ -180,13 +181,10 @@ export default function Listado() {
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   };
   const toggleCompleted = (id: number) => {
-    // Si estamos en modo eliminación o edición, usa la función original
     if (isDeleting || isEditing) {
       toggleSelectActivity(id);
       return;
     }
-    
-    // Si no, cambia el estado de completado
     setCompletedActivities(prev => 
       prev.includes(id) 
         ? prev.filter(activityId => activityId !== id) 

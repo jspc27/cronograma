@@ -5,7 +5,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "@/App";
-import { getActividadesPrioritarias } from "../app/database/database";
+import * as Database from "../app/database/database";
+
 
 export default function Prioridad() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -13,8 +14,6 @@ export default function Prioridad() {
     { id: number; descripcion: string; hora: string; fecha: string; prioridad: number; completada: boolean }[]
   >([]);
   const [completedActivities, setCompletedActivities] = useState<number[]>([]);
-
-  // Cargar actividades prioritarias cuando se enfoca la pantalla
   useFocusEffect(
     React.useCallback(() => {
       cargarActividadesPrioritarias();
@@ -24,11 +23,10 @@ export default function Prioridad() {
 
   const cargarActividadesPrioritarias = async () => {
     try {
-      const datosPrioridad = await getActividadesPrioritarias();
-      // Mapear resultados de la base de datos al formato esperado
+      const datosPrioridad = await Database.getActividadesPrioritarias();
       const actividadesFormateadas = datosPrioridad.map(item => ({
         id: item.id,
-        descripcion: item.actividad, // Mapear 'actividad' a 'descripcion' para compatibilidad
+        descripcion: item.actividad, 
         hora: item.hora,
         fecha: item.fecha,
         prioridad: item.prioridad,

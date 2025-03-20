@@ -82,7 +82,6 @@ export const updateActivity = async (id: number, actividad: string, hora: string
   }
 };
 
-// Nueva función para obtener actividades prioritarias
 export const getActividadesPrioritarias = async (): Promise<{ id: number; actividad: string; hora: string; fecha: string; prioridad: number }[]> => {
   try {
     const result = await db.getAllAsync<{ id: number; actividad: string; hora: string; fecha: string; prioridad: number }>(
@@ -94,3 +93,13 @@ export const getActividadesPrioritarias = async (): Promise<{ id: number; activi
     return [];
   }
 };
+const database = {
+  createTable,
+  insertActivity,
+  getActivities,
+  deleteActivities,
+  updateActivity,
+  getActividadesPrioritarias
+};
+
+export default database;

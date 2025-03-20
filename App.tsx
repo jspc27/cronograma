@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Prioridad from "./app/Prioridad";
 import Sugerencias from "./app/Sugerencias";
 import Listado from "./app/Listado";
-import HomeScreen from "./app/index"; // Asegúrate de que el nombre del componente sea correcto
+import HomeScreen from "./app/index";
 import { MenuProvider } from "react-native-popup-menu";
+import LoadingScreen from "./app/LoadingScreen"; 
 
-// Definir los tipos de navegación
 export type StackParamList = {
   Home: undefined;
   Prioridad: undefined;
@@ -15,9 +15,15 @@ export type StackParamList = {
   Listado: { fecha: string };
   index: undefined;
 };
+
 const Stack = createStackNavigator<StackParamList>();
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+if (isLoading) {
+  return <LoadingScreen onFinish={() => setIsLoading(false)} />;
+}
+
   return (
     <NavigationContainer>
       <MenuProvider>
