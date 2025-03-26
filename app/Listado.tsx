@@ -252,83 +252,93 @@ export default function Listado() {
           </Animated.View>
         )}
 
-        <FlatList
-          data={filteredActivities}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity
-              onPress={() => {
-                if (isDeleting) {
-                  toggleSelectActivity(item.id); 
-                } else {
-                  toggleCompleted(item.id); 
-                }
-              }}
-              style={[
-                prioridadStyles.taskCard,
-                selectedActivities.includes(item.id) && styles.selectedActivity,
-                completedActivities.includes(item.id) && prioridadStyles.taskCardCompleted
-              ]}
-            >
-              {(isDeleting || isEditing) && (
-                <View style={styles.selectionCircle}>
-                  {selectedActivities.includes(item.id) && <View style={styles.innerCircle} />}
-                </View>
-              )}
+<FlatList
+  data={filteredActivities}
+  keyExtractor={(item) => item.id.toString()}
+  renderItem={({ item, index }) => (
+    <TouchableOpacity
+      onPress={() => {
+        if (isDeleting) {
+          toggleSelectActivity(item.id); // Seleccionar actividad para eliminar
+        } else if (isEditing) {
+          if (!completedActivities.includes(item.id)) {
+            handleUpdate(item.id); // Editar actividad solo si no está completada
+          } else {
+            Alert.alert("Actividad completada", "No puedes editar una actividad que ya está marcada como completada.");
+          }
+        } else {
+          toggleCompleted(item.id); // Marcar como completada
+        }
+      }}
+      style={[
+        prioridadStyles.taskCard,
+        selectedActivities.includes(item.id) && styles.selectedActivity,
+        completedActivities.includes(item.id) && prioridadStyles.taskCardCompleted,
+      ]}
+    >
+      {(isDeleting || isEditing) && (
+        <View style={styles.selectionCircle}>
+          {selectedActivities.includes(item.id) && <View style={styles.innerCircle} />}
+        </View>
+      )}
 
-              <View style={prioridadStyles.taskHeader}>
-                <View style={prioridadStyles.taskTitleContainer}>
-                  <View
-                    style={[
-                      prioridadStyles.priorityIndicator,
-                      { backgroundColor: getColorForIndex(index) }
-                    ]}
-                  />
-                  <Text style={[
-                    prioridadStyles.taskTitle,
-                    completedActivities.includes(item.id) && {
-                      textDecorationLine: 'line-through',
-                      color: '#8A8A8E'
-                    }
-                  ]}>
-                    {item.actividad}
-                  </Text>
-                </View>
-                <View style={prioridadStyles.checkButton}>
-                  {item.prioridad === 1 ? (
-                    <MaterialCommunityIcons
-                      name="pin"
-                      size={24}
-                      color="#EC0000"
-                    />
-                  ) : (
-                    <MaterialCommunityIcons
-                      name={completedActivities.includes(item.id) ? "check-circle" : "circle-outline"}
-                      size={24}
-                      color={completedActivities.includes(item.id) ? "#34C759" : "#8A8A8E"}
-                    />
-                  )}
-                </View>
-              </View>
-
-              <View style={prioridadStyles.taskFooter}>
-                <View style={prioridadStyles.tagContainer}>
-                  <Text
-                    style={[
-                      prioridadStyles.priorityTag,
-                      { backgroundColor: getColorForIndex(index) }
-                    ]}
-                  >
-                    {item.hora}
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+      <View style={prioridadStyles.taskHeader}>
+        <View style={prioridadStyles.taskTitleContainer}>
+          <View
+            style={[
+              prioridadStyles.priorityIndicator,
+              { backgroundColor: getColorForIndex(index) },
+            ]}
+          />
+          <Text
+            style={[
+              prioridadStyles.taskTitle,
+              completedActivities.includes(item.id) && {
+                textDecorationLine: "line-through",
+                color: "#8A8A8E",
+              },
+            ]}
+          >
+            {item.actividad}
+          </Text>
+        </View>
+        <View style={prioridadStyles.checkButton}>
+          {item.prioridad === 1 ? (
+            <MaterialCommunityIcons name="pin" size={24} color="#EC0000" />
+          ) : (
+            <MaterialCommunityIcons
+              name={
+                completedActivities.includes(item.id)
+                  ? "check-circle"
+                  : "circle-outline"
+              }
+              size={24}
+              color={
+                completedActivities.includes(item.id) ? "#34C759" : "#8A8A8E"
+              }
+            />
           )}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
-          contentContainerStyle={{ padding: 16 }}
-        />
+        </View>
+      </View>
+
+      <View style={prioridadStyles.taskFooter}>
+        <View style={prioridadStyles.tagContainer}>
+          <Text
+            style={[
+              prioridadStyles.priorityTag,
+              { backgroundColor: getColorForIndex(index) },
+            ]}
+          >
+            {item.hora}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )}
+  ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+  ListEmptyComponent={<Text style={styles.emptyText}>No hay actividades</Text>}
+  contentContainerStyle={{ padding: 16 }}
+/>
 
         {isDeleting && (
           <View style={styles.actionButtonsContainer}>
