@@ -259,15 +259,15 @@ export default function Listado() {
     <TouchableOpacity
       onPress={() => {
         if (isDeleting) {
-          toggleSelectActivity(item.id); // Seleccionar actividad para eliminar
+          toggleSelectActivity(item.id);
         } else if (isEditing) {
           if (!completedActivities.includes(item.id)) {
-            handleUpdate(item.id); // Editar actividad solo si no está completada
+            handleUpdate(item.id);
           } else {
             Alert.alert("Actividad completada", "No puedes editar una actividad que ya está marcada como completada.");
           }
         } else {
-          toggleCompleted(item.id); // Marcar como completada
+          toggleCompleted(item.id); 
         }
       }}
       style={[
